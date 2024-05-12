@@ -9,7 +9,7 @@ export default async function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname
     const isPublicRoute = publicRoutes.includes(path)
 
-    const cookie = cookies().get('session')?.value
+    const cookie = cookies().get('apikey')?.value
     const apikey = decrypt(cookie)
 
     if (!isPublicRoute && !apikey) {
