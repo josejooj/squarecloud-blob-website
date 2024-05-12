@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -16,12 +17,14 @@ export default function RootLayout({ children }: Readonly<{
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " dark:bg-black dark:text-gray-200 min-h-screen flex flex-col items-center"}>
-        <Header />
-        <main className="flex-1 w-full max-w-[1200px] p-2">
-          {children}
-        </main>
-        <Footer />
+      <body className={inter.className + "light:bg-white min-h-screen flex flex-col items-center"}>
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <Header />
+          <main className="flex-1 w-full max-w-[1200px] p-2">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
