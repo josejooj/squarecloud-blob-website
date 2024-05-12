@@ -11,17 +11,21 @@ import { Skeleton } from "./ui/skeleton";
 interface CardProps {
     title: string,
     icon: IconType,
+    value: string,
     description: string
 }
 
-function Card({ title, icon: Icon, description }: CardProps) {
+function Card({ title, icon: Icon, description, value }: CardProps) {
     return (
-        <section className="p-2 rounded-md border-2 dark:bg-slate-950">
-            <div className="flex items-center gap-2 pb-2">
-                <Icon size={18} />
-                <h1 className="font-medium text-lg">{title}</h1>
+        <section className="p-2 rounded-md border-2 ">
+            <div className="flex items-center justify-between pb-2">
+                <nav className="flex items-center gap-2">
+                    <Icon size={18} />
+                    <h1 className="font-medium text-lg">{title}</h1>
+                </nav>
+                <h3 className="text-sm">{value}</h3>
             </div>
-            <h3 className="dark:text-gray-200">{description}</h3>
+            <h5 className="text-sm text-gray-400">{description}</h5>
         </section>
     )
 }
@@ -66,31 +70,34 @@ export async function User() {
                 <h1 className="font-bold text-3xl">{user.tag}</h1>
                 <h3 className="text-sm font-light">{user.id}</h3>
             </section>
-            <article className="w-full grid sm:grid-cols-3 gap-2">
+            <article className="w-full grid lg:grid-cols-3 gap-2">
                 <Card
                     title="Objects"
                     icon={FaFileAlt}
-                    description={status?.objects || "Unavailable"}
+                    value={status?.objects || "Unavailable"}
+                    description="This represents the object count on your blob"
                 />
                 <Card
                     title="Size"
                     icon={IoServerSharp}
-                    description={
+                    value={
                         status?.size ?
                             prettyBytes(status.size)
                             :
                             "Unavailable"
                     }
+                    description="That's all the space taken up by your files"
                 />
                 <Card
                     title="Estimated Cost"
                     icon={MdAttachMoney}
-                    description={
+                    value={
                         status?.totalEstimate ?
                             Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(status.size)
                             :
                             "Unavailable"
                     }
+                    description="This is the amount to be paid upon renewal"
                 />
             </article>
         </article>
