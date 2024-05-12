@@ -1,14 +1,19 @@
 'use client';
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { GrStatusWarning } from "react-icons/gr";
 
 export default function login() {
 
     const router = useRouter()
+    const [error, setError] = useState<string>('')
+    const [fetching, setFetching] = useState<boolean>(false)
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
-        event.preventDefault()
+        event.preventDefault();
+
+        setFetching(true);
 
         const formData = new FormData(event.currentTarget)
         const apikey = formData.get('apikey')!
@@ -21,16 +26,44 @@ export default function login() {
         });
 
         if (response.ok) {
-            router.push('/profile')
+            router.push('/')
         } else {
-            // Handle errors
+
+            const data = await response.json();
+
+            setError(data.message);
+
         }
+
+        setFetching(false);
+
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="password" name="apikey" placeholder="API Key" required />
-            <button type="submit">Authenticate</button>
-        </form>
+        <div className='py-4 flex w-full items-center justify-center'>
+            <div className='flex flex-col gap-2 w-full max-w-[600px]'>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-4 dark:bg-zinc-800 bg-gray-200 rounded-md p-4'>
+                    <input
+                        type="password"
+                        name="apikey"
+                        placeholder="API Key"
+                        required
+                        className='p-2 rounded-md'
+                    />
+                    <button
+                        type="submit"
+                        disabled={fetching}
+                        children="Authenticate"
+                        className='dark:font-medium'
+                    />
+                </form>
+                {error && (
+                    <nav className='p-2 dark:bg-red-950 bg-red-200 rounded-md flex items-center gap-2 text-sm font-medium dark:text-gray-200'>
+                        <GrStatusWarning size={24} />
+                        {error}
+                    </nav>
+                )}
+            </div>
+        </div>
     )
 }
