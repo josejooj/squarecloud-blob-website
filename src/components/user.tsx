@@ -6,6 +6,7 @@ import { IoServerSharp } from "react-icons/io5";
 import { FaFileAlt } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import prettyBytes from "pretty-bytes";
+import { Skeleton } from "./ui/skeleton";
 
 interface CardProps {
     title: string,
@@ -25,7 +26,16 @@ function Card({ title, icon: Icon, description }: CardProps) {
     )
 }
 
-export default async function () {
+export function UserSkeleton() {
+    return (
+        <div className="flex flex-col gap-4">
+            <Skeleton className="w-32 h-8" />
+            <Skeleton className="w-64 h-4 pt-2" />
+        </div>
+    )
+}
+
+export async function User() {
 
     const cookie = cookies();
     const res = await fetch("https://api.squarecloud.app/v2/user", {
