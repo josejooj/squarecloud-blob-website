@@ -7,15 +7,18 @@ import { FaFileAlt } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import prettyBytes from "pretty-bytes";
 import { Skeleton } from "./ui/skeleton";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 interface CardProps {
     title: string,
     icon: IconType,
     value: string,
     description: string
+    tooltip?: string
 }
 
-function Card({ title, icon: Icon, description, value }: CardProps) {
+function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
     return (
         <section className="p-2 rounded-md border-2 ">
             <div className="flex items-center justify-between pb-2">
@@ -25,7 +28,17 @@ function Card({ title, icon: Icon, description, value }: CardProps) {
                 </nav>
                 <h3 className="text-sm">{value}</h3>
             </div>
-            <h5 className="text-sm text-gray-400">{description}</h5>
+            <div className="w-full flex justify-between">
+                <h5 className="text-sm text-gray-400">{description}</h5>
+                {tooltip && (
+                    <TooltipProvider>
+                        <Tooltip delayDuration={200}>
+                            <TooltipTrigger className="dark:text-gray-300 text-gray-600"><IoMdInformationCircleOutline size={24} /></TooltipTrigger>
+                            <TooltipContent className="dark:bg-gray-700 dark:text-white border">{tooltip}</TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                )}
+            </div>
         </section>
     )
 }
@@ -76,6 +89,7 @@ export async function User() {
                     icon={FaFileAlt}
                     value={status?.objects || "Unavailable"}
                     description="This represents the object count on your blob"
+                    tooltip="Note that this information may be a little out of date due to caching"
                 />
                 <Card
                     title="Size"
@@ -87,13 +101,14 @@ export async function User() {
                             "Unavailable"
                     }
                     description="That's all the space taken up by your files"
+                    tooltip="Note that this information may be a little out of date due to caching"
                 />
                 <Card
                     title="Estimated Cost"
                     icon={MdAttachMoney}
                     value={
-                        status?.totalEstimate ?
-                            Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(status.size)
+                        typeof status?.totalEstimate === 'number' && !isNaN(status.totalEstimate) ?
+                            Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(status.totalEstimate)
                             :
                             "Unavailable"
                     }
