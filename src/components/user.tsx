@@ -15,12 +15,12 @@ interface CardProps {
 
 function Card({ title, icon: Icon, description }: CardProps) {
     return (
-        <section className="p-2 rounded-md border-2 bg-gray-800">
+        <section className="p-2 rounded-md border-2 dark:bg-slate-950">
             <div className="flex items-center gap-2 pb-2">
                 <Icon size={18} />
                 <h1 className="font-medium text-lg">{title}</h1>
             </div>
-            <h3 className="text-gray-200">{description}</h3>
+            <h3 className="dark:text-gray-200">{description}</h3>
         </section>
     )
 }
@@ -51,7 +51,7 @@ export default async function () {
                 <h1 className="font-bold text-3xl">{user.tag}</h1>
                 <h3 className="text-sm font-light">{user.id}</h3>
             </section>
-            <article className="w-full bg-black grid grid-cols-3 gap-2">
+            <article className="w-full grid grid-cols-3 gap-2">
                 <Card
                     title="Objects"
                     icon={FaFileAlt}
