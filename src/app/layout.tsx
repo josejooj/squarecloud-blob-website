@@ -14,7 +14,11 @@ export default function RootLayout({ children }: Readonly<{
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className + " dark:bg-black dark:text-gray-200 h-screen flex justify-center"}>
+        <main className="w-full max-w-[1200px] p-2">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
