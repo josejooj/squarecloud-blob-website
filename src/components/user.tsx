@@ -31,7 +31,7 @@ export function UserSkeleton() {
         <div className="flex flex-col gap-4">
             <Skeleton className="w-32 h-8" />
             <Skeleton className="w-64 h-4 pt-2" />
-            <nav className="grid grid-cols-3 w-full gap-2">
+            <nav className="grid md:grid-cols-3 w-full gap-2">
                 <Skeleton className="h-20" />
                 <Skeleton className="h-20" />
                 <Skeleton className="h-20" />
@@ -66,7 +66,7 @@ export async function User() {
                 <h1 className="font-bold text-3xl">{user.tag}</h1>
                 <h3 className="text-sm font-light">{user.id}</h3>
             </section>
-            <article className="w-full grid grid-cols-3 gap-2">
+            <article className="w-full grid sm:grid-cols-3 gap-2">
                 <Card
                     title="Objects"
                     icon={FaFileAlt}
