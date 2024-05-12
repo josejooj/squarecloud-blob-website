@@ -3,7 +3,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { CiCloudMoon, CiCloudSun } from "react-icons/ci";
 
-export default function () {
+export default function ThemeModeSwitch() {
 
     const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme()
@@ -11,7 +11,7 @@ export default function () {
 
     useEffect(() => { setMounted(true) }, [])
 
-    if (!mounted) return;
+    if (!mounted) return null;
 
     const handleThemeChange = () => {
         if (theme === 'light') return setTheme("dark");

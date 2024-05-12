@@ -5,7 +5,7 @@ import { GrStatusWarning } from "react-icons/gr";
 import Cookies from 'js-cookie';
 import Main from '@/components/main';
 
-export default function login() {
+export default function Login() {
 
     const router = useRouter()
     const [error, setError] = useState<string>('')
@@ -57,9 +57,8 @@ export default function login() {
                         <button
                             type="submit"
                             disabled={fetching}
-                            children="Authenticate"
                             className='dark:font-medium'
-                        />
+                        >Authenticate</button>
                     </form>
                     {error && (
                         <nav className='p-2 dark:bg-red-950 bg-red-200 rounded-md flex items-center gap-2 text-sm font-medium dark:text-gray-200'>
