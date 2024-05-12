@@ -2,6 +2,7 @@
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { GrStatusWarning } from "react-icons/gr";
+import Cookies from 'js-cookie';
 
 export default function login() {
 
@@ -16,16 +17,17 @@ export default function login() {
         setFetching(true);
 
         const formData = new FormData(event.currentTarget)
-        const apikey = formData.get('apikey')!
+        const apikey = formData.get('apikey')!.toString()
         const response = await fetch('/api/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': apikey.toString()
+                'Authorization': apikey
             }
         });
 
         if (response.ok) {
+            Cookies.set("apikey", apikey, { secure: true, sameSite: "strict" })
             router.push('/')
         } else {
 
