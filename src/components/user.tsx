@@ -31,6 +31,11 @@ export function UserSkeleton() {
         <div className="flex flex-col gap-4">
             <Skeleton className="w-32 h-8" />
             <Skeleton className="w-64 h-4 pt-2" />
+            <nav className="grid grid-cols-3 w-full gap-2">
+                <Skeleton className="h-20" />
+                <Skeleton className="h-20" />
+                <Skeleton className="h-20" />
+            </nav>
         </div>
     )
 }
