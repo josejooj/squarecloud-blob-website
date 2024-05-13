@@ -9,6 +9,8 @@ import prettyBytes from "pretty-bytes";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import crypto from 'crypto';
+import Image from "next/image";
 
 interface CardProps {
     title: string,
@@ -76,12 +78,22 @@ export async function User() {
     });
 
     const status = await stats_res.json().then(r => r.response) || {};
+    const user_avatar_hash = crypto.createHash("sha256").update(user?.email?.trim().toLowerCase()).digest("hex");
 
     return (
         <article className="flex flex-col gap-4">
-            <section className="flex flex-col gap-2">
-                <h1 className="font-bold text-3xl">{user.tag}</h1>
-                <h3 className="text-sm font-light">{user.id}</h3>
+            <section className="flex items-center gap-4">
+                <Image
+                    src={`https://gravatar.com/avatar/${user_avatar_hash}?d=mp`}
+                    width={64}
+                    height={24}
+                    alt="Profile picture"
+                    className="rounded-lg"
+                />
+                <section className="flex flex-col gap-2">
+                    <h1 className="font-bold text-3xl">{user.tag}</h1>
+                    <h3 className="text-sm font-light">{user.id}</h3>
+                </section>
             </section>
             <article className="w-full grid lg:grid-cols-3 gap-2">
                 <Card
