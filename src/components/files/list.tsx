@@ -64,7 +64,7 @@ export default function ListFiles() {
                 const color = `#${interpolatedColor.join('')}`;
 
                 return (
-                    <span className="font-medium" style={{ color }}>{prettyBytes(value)}</span>
+                    <span className="font-bold" style={{ color }}>{prettyBytes(value)}</span>
                 )
 
             }
@@ -76,7 +76,7 @@ export default function ListFiles() {
                     <ResponsivePopover trigger={(
                         <Button variant={'secondary'} className="mx-auto px-auto">Manage</Button>
                     )}>
-                        <h1 className="text-center font-medium py-4">Manage Object</h1>
+                        <h1 className="text-center font-medium py-4 w-48">Manage Object</h1>
                         <div className="flex flex-col gap-2">
                             <Button className="w-full" variant="outline" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.name}`)}>Access file</Button>
                             <Button className="w-full" variant="destructive">Delete file</Button>

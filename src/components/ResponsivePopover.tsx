@@ -15,7 +15,7 @@ export default function ResponsivePopover({ trigger, children }: Props) {
     if (isDesktop) return (
         <Popover>
             <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-            <PopoverContent className='p-1 max-h-[256px] overflow-y-auto custom-scrollbar'>{children}</PopoverContent>
+            <PopoverContent className='p-1 max-h-[256px] w-fit overflow-y-auto custom-scrollbar'>{children}</PopoverContent>
         </Popover >
     )
 
