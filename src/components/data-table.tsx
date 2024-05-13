@@ -1,14 +1,15 @@
 import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
 
 interface Props<T> {
     columns: ColumnDef<T>[],
-    data: T[]
+    data: T[],
+    no_data_text?: string | React.ReactNode
 }
 
-export function DataTable<T>({ columns, data }: Props<T>) {
+export function DataTable<T>({ columns, data, no_data_text }: Props<T>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
 
@@ -59,7 +60,7 @@ export function DataTable<T>({ columns, data }: Props<T>) {
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
+                                {no_data_text || "No results."}
                             </TableCell>
                         </TableRow>
                     )}

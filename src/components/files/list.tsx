@@ -8,13 +8,6 @@ import prettyBytes from "pretty-bytes";
 export default function ListFiles() {
 
     const { files } = useFileContext();
-
-    if (files === null) return (
-        <Label className="w-full py-8 text-center">
-            Loading files...
-        </Label>
-    )
-
     const columns: ColumnDef<File>[] = [
         {
             accessorKey: "name",
@@ -82,7 +75,11 @@ export default function ListFiles() {
         }
     ]
 
+    if (files === null) return (
+        <DataTable columns={columns} data={[]} no_data_text="Loading your files..." />
+    )
+
     return (
-        <DataTable columns={columns} data={files} />
+        <DataTable columns={columns} data={files} no_data_text="Looks like you don't have objects stored." />
     )
 }
