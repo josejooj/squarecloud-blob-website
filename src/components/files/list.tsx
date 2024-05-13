@@ -4,6 +4,8 @@ import { DataTable, SortedHeader } from "../data-table";
 import { Label } from "../ui/label";
 import { File, useFileContext } from "./provider";
 import prettyBytes from "pretty-bytes";
+import { Button } from "../ui/button";
+import ResponsivePopover from "../ResponsivePopover";
 
 export default function ListFiles() {
 
@@ -68,9 +70,19 @@ export default function ListFiles() {
             }
         },
         {
-            header: "Action",
-            cell: ({ getValue }) => {
-
+            header: " ",
+            cell: ({ row }) => {
+                return (
+                    <ResponsivePopover trigger={(
+                        <Button variant={'secondary'} className="mx-auto px-auto">Manage</Button>
+                    )}>
+                        <h1 className="text-center font-medium py-4">Manage Object</h1>
+                        <div className="flex flex-col gap-2">
+                            <Button className="w-full" variant="outline" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.name}`)}>Access file</Button>
+                            <Button className="w-full" variant="destructive">Delete file</Button>
+                        </div>
+                    </ResponsivePopover>
+                )
             }
         }
     ]
