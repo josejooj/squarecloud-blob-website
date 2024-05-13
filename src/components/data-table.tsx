@@ -1,23 +1,30 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import { useState } from "react"
+import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6"
 
 interface Props<T> {
     columns: ColumnDef<T>[],
     data: T[]
 }
 
-export default  function DataTable<T>({ columns, data }: Props<T>) {
+export function DataTable<T>({ columns, data }: Props<T>) {
+
+    const [sorting, setSorting] = useState<SortingState>([])
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
+        state: { sorting }
     })
 
     return (
         <div className="rounded-md border">
             <Table>
-                <TableHeader>
+                <TableHeader className="dark:bg-slate-900 bg-slate-300">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
@@ -60,5 +67,34 @@ export default  function DataTable<T>({ columns, data }: Props<T>) {
             </Table>
         </div>
     )
+
+}
+
+export function SortedHeader({ title }: { title: string }): ColumnDef<any>['header'] {
+
+    return function header({ column }) {
+
+        const Icon = (() => {
+
+            const sorted = column.getIsSorted();
+
+            if (sorted === 'asc') return FaArrowUpZA;
+            if (sorted === 'desc') return FaArrowDownZA;
+
+            return FaArrowDownUpAcrossLine;
+
+        })();
+
+        return (
+            <div
+                onClick={() => column.toggleSorting(column.getIsSorted() === 'asc', true)}
+                className="flex items-center gap-2 group cursor-pointer" // Add the 'group' class here
+            >
+                <span>{title}</span>
+                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-white duration-200" /> {/* Apply styles on hover here */}
+            </div>
+        )
+
+    }
 
 }
