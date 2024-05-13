@@ -25,7 +25,7 @@ export function DataTable<T>({ columns, data, no_data_text }: Props<T>) {
     return (
         <div className="rounded-md border">
             <Table>
-                <TableHeader className="dark:bg-slate-900 bg-slate-300">
+                <TableHeader className="dark:bg-gray-950 bg-slate-100">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
@@ -92,7 +92,7 @@ export function SortedHeader({ title }: { title: string }): ColumnDef<any>['head
                 className="flex items-center gap-2 group cursor-pointer"
             >
                 <span>{title}</span>
-                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-white duration-200" />
+                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-slate-200 duration-200" />
             </div>
         )
 
