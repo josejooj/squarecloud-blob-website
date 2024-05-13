@@ -1,14 +1,17 @@
+'use client';
 import AddFile from "./add";
+import ListFiles from "./list";
+import { FileProvider } from "./provider";
 
-export default async function FileManager() {
+export default function FileManager() {
     return (
-        <div className="flex flex-col gap-2">
-            <nav>
-                <AddFile />
-            </nav>
-            <table>
-                
-            </table>
-        </div>
+        <FileProvider>
+            <div className="flex flex-col gap-2">
+                <nav>
+                    <AddFile />
+                </nav>
+                <ListFiles />
+            </div>
+        </FileProvider>
     )
 }
