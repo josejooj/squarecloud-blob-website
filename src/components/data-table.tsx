@@ -1,7 +1,7 @@
-import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { useState } from "react"
-import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6"
+import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { useState } from "react";
+import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
 
 interface Props<T> {
     columns: ColumnDef<T>[],
@@ -87,11 +87,11 @@ export function SortedHeader({ title }: { title: string }): ColumnDef<any>['head
 
         return (
             <div
-                onClick={() => column.toggleSorting(column.getIsSorted() === 'asc', true)}
-                className="flex items-center gap-2 group cursor-pointer" // Add the 'group' class here
+                onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+                className="flex items-center gap-2 group cursor-pointer"
             >
                 <span>{title}</span>
-                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-white duration-200" /> {/* Apply styles on hover here */}
+                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-white duration-200" />
             </div>
         )
 
