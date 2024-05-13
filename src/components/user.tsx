@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/t
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import crypto from 'crypto';
 import Image from "next/image";
+import { FaAddressCard } from "react-icons/fa";
 
 interface CardProps {
     title: string,
@@ -92,7 +93,10 @@ export async function User() {
                 />
                 <section className="flex flex-col gap-2">
                     <h1 className="font-bold text-3xl">{user.tag}</h1>
-                    <h3 className="text-sm font-light">{user.id}</h3>
+                    <div className="flex items-center gap-2 dark:text-gray-300 text-gray-700">
+                        <FaAddressCard />
+                        <h3 className="text-sm font-medium dark:text-gray-400 text-gray-600">{user.id}</h3>
+                    </div>
                 </section>
             </section>
             <article className="w-full grid lg:grid-cols-3 gap-2">
@@ -127,7 +131,7 @@ export async function User() {
                     description="This is the amount to be paid upon renewal"
                 />
             </article>
-        </article>
+        </article >
     )
 
 }
