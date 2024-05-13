@@ -49,8 +49,13 @@ function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
 export function UserSkeleton() {
     return (
         <div className="flex flex-col gap-4">
-            <Skeleton className="w-32 h-8" />
-            <Skeleton className="w-64 h-4 pt-2" />
+            <nav className="flex gap-4">
+                <Skeleton className="rounded-lg w-16 h-16"/>
+                <section className="flex flex-col gap-2">
+                    <Skeleton className="w-32 h-8" />
+                    <Skeleton className="w-64 h-6" />
+                </section>
+            </nav>
             <nav className="grid md:grid-cols-3 w-full gap-2 h-20">
                 <Skeleton className="h-full" />
                 <Skeleton className="h-full" />
