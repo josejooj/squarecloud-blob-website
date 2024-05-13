@@ -56,7 +56,7 @@ export function UserSkeleton() {
                     <Skeleton className="w-64 h-6" />
                 </section>
             </nav>
-            <nav className="grid md:grid-cols-3 w-full gap-2 h-20">
+            <nav className="grid md:grid-cols-3 w-full gap-2 md:h-20 h-64">
                 <Skeleton className="h-full" />
                 <Skeleton className="h-full" />
                 <Skeleton className="h-full" />
