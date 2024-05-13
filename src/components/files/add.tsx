@@ -19,8 +19,23 @@ const messages = {
 }
 
 const messages_by_status = {
-    200: "Object inserted successfully!",
-    413: "The file size must be at max 100MB."
+    200: "Object inserted successfully!",                    // 200 OK
+    413: "The file size must be at max 100MB.",              // 413 Payload Too Large
+    524: "Sorry, apparently the api is offline, try again.", // 524 A Timeout Ocurred
+    503: "Sorry, apparently the api is offline, try again.", // 503 Service Unavailable
+    504: "Sorry, apparently the api is offline, try again.", // 504 Gateway Timeout
+    505: "Please, update your navigator",                    // 505 HTTP Version Not Supported
+    523: "Maybe your country is blocked."                    // Origin is unreachable
+}
+
+const parseJsonBody = async<T extends any = any>(input: any): Promise<T> => {
+
+    try {
+        return JSON.parse(input) || {};
+    } catch (e) {
+        return {} as T
+    }
+
 }
 
 export default function AddFile() {
@@ -48,30 +63,33 @@ export default function AddFile() {
 
         }
 
-        const response = await fetch(url.toString(), {
-            method: 'PUT',
-            headers: { Authorization: Cookies.get("apikey")! },
-            body: requestform
-        }).catch(e => e);
+        const xhr = new XMLHttpRequest();
 
-        const data = await response.json?.().catch(() => ({})) || {};
-        const Icon = response.status === 200 ? FaCheck : CiWarning;
+        xhr.open("PUT", url.toString());
+        xhr.setRequestHeader('Authorization', Cookies.get('apikey')!);
+        xhr.send(requestform);
+        xhr.onload = async () => {
 
-        setResult((
-            <div className="flex items-center gap-4 pt-4 text-gray-200">
-                <Icon size={24} />
-                <h1>{
-                    messages[data.code as keyof typeof messages] ||
-                    messages_by_status[response.status as keyof typeof messages_by_status] ||
-                    "An unknown error ocurred."
-                }</h1>
-            </div>
-        ))
+            const data = await parseJsonBody(xhr.response);
+            const Icon = xhr.status === 200 ? FaCheck : CiWarning;
 
-        setFetching(false);
-        setTimeout(() => {
-            setResult(null)
-        }, 1000 * 5)
+            setResult((
+                <div className="flex items-center gap-4 pt-4 text-gray-200">
+                    <Icon size={24} />
+                    <h1>{
+                        messages[data.code as keyof typeof messages] ||
+                        messages_by_status[xhr.status as keyof typeof messages_by_status] ||
+                        "An unknown error ocurred."
+                    }</h1>
+                </div>
+            ))
+
+            setFetching(false);
+            setTimeout(() => {
+                setResult(null)
+            }, 1000 * 5)
+
+        }
 
     }
 
