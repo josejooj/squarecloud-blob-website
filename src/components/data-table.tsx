@@ -89,7 +89,7 @@ export function SortedHeader({ title }: { title: string }): ColumnDef<any>['head
         return (
             <div
                 onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                className="flex items-center gap-2 group cursor-pointer"
+                className="flex items-center gap-2 group cursor-pointer whitespace-nowrap"
             >
                 <span>{title}</span>
                 <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-slate-200 duration-200" />
