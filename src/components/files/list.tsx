@@ -1,6 +1,6 @@
 'use client';
 import { ColumnDef } from "@tanstack/react-table";
-import DataTable from "../data-table";
+import { DataTable, SortedHeader } from "../data-table";
 import { Label } from "../ui/label";
 import { File, useFileContext } from "./provider";
 import prettyBytes from "pretty-bytes";
@@ -17,8 +17,8 @@ export default function ListFiles() {
 
     const columns: ColumnDef<File>[] = [
         {
-            header: "File name",
             accessorKey: "name",
+            header: SortedHeader({ title: "File name" }),
             cell: ({ getValue }) => {
 
                 const value = getValue<string>();
@@ -28,7 +28,7 @@ export default function ListFiles() {
             }
         },
         {
-            header: "Created at",
+            header: SortedHeader({ title: "Created At" }),
             accessorKey: "created_at",
             cell: ({ getValue }) => {
 
@@ -48,7 +48,7 @@ export default function ListFiles() {
             }
         },
         {
-            header: "Size",
+            header: SortedHeader({ title: "File size" }),
             accessorKey: "size",
             cell: ({ getValue }) => {
 
