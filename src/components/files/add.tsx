@@ -25,10 +25,13 @@ const messages_by_status = {
 
 export default function AddFile() {
 
-    const [result, setResult] = useState<React.ReactNode>(null)
+    const [result, setResult] = useState<React.ReactNode>(null);
+    const [fetching, setFetching] = useState<boolean>(false)
     const handleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
+
+        setFetching(true);
 
         const originalform = new FormData(event.target as HTMLFormElement);
         const requestform = new FormData();
@@ -54,8 +57,6 @@ export default function AddFile() {
         const data = await response.json?.().catch(() => ({})) || {};
         const Icon = response.status === 200 ? FaCheck : CiWarning;
 
-        console.log(response, messages[data.code as keyof typeof messages], data.code, data)
-
         setResult((
             <div className="flex items-center gap-4 pt-4 text-gray-200">
                 <Icon size={24} />
@@ -67,6 +68,7 @@ export default function AddFile() {
             </div>
         ))
 
+        setFetching(false);
         setTimeout(() => {
             setResult(null)
         }, 1000 * 5)
@@ -111,7 +113,7 @@ export default function AddFile() {
                                         <Checkbox className="dark:border-slate-800" defaultChecked name="secure" /> Security Hash
                                     </div>
                                 </div>
-                                <Button type="submit" variant={"outline"} className="border-2" >Send File</Button>
+                                <Button type="submit" variant={"outline"} className="border-2" disabled={fetching}>Send File</Button>
                             </form>
                         )}
                     </DialogDescription>
