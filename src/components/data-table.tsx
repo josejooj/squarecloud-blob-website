@@ -1,4 +1,4 @@
-import { ColumnDef, SortingState, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import React, { useState } from "react";
 import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
@@ -6,21 +6,27 @@ import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons
 interface Props<T> {
     columns: ColumnDef<T>[],
     data: T[],
-    no_data_text?: string | React.ReactNode
+    no_data_text?: string | React.ReactNode,
+    rowSelection?: RowSelectionState,
+    onRowSelection?: OnChangeFn<RowSelectionState>
 }
 
-export function DataTable<T>({ columns, data, no_data_text }: Props<T>) {
+export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection }: Props<T>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
-
-    const table = useReactTable({
+    const options: TableOptions<T> = {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         state: { sorting }
-    })
+    }
+
+    if (rowSelection) options.state!.rowSelection = rowSelection;
+    if (onRowSelection) options.onRowSelectionChange = onRowSelection;
+
+    const table = useReactTable(options)
 
     return (
         <div className="rounded-md border">
