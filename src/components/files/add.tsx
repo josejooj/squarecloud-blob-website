@@ -95,13 +95,8 @@ export default function AddFile() {
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <div
-                    className={cn(
-                        "bg-green-300 dark:bg-green-500 hover:bg-green-200 dark:hover:bg-green-400",
-                        "p-2 rounded-md text-black duration-200"
-                    )}
-                >Add item to blob</div>
+            <DialogTrigger asChild>
+                <Button variant={'outline'} className="bg-green-300 dark:bg-green-600">Add item to blob</Button>
             </DialogTrigger>
             <DialogContent className="dark:bg-black border-2">
                 <DialogHeader>
