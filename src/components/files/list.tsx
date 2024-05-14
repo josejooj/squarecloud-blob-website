@@ -6,6 +6,7 @@ import { File, useFileContext } from "./provider";
 import prettyBytes from "pretty-bytes";
 import { Button } from "../ui/button";
 import ResponsivePopover from "../ResponsivePopover";
+import { FaLink } from "react-icons/fa6";
 
 export default function ListFiles() {
 
@@ -73,15 +74,10 @@ export default function ListFiles() {
             header: " ",
             cell: ({ row }) => {
                 return (
-                    <ResponsivePopover trigger={(
-                        <Button variant={'secondary'} className="mx-auto px-auto">Manage</Button>
-                    )}>
-                        <h1 className="text-center font-medium py-4 w-48">Manage Object</h1>
-                        <div className="flex flex-col gap-2">
-                            <Button className="w-full" variant="outline" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.name}`)}>Access file</Button>
-                            <Button className="w-full" variant="destructive">Delete file</Button>
-                        </div>
-                    </ResponsivePopover>
+                    <Button className="w-full flex items-center gap-2" variant="link" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.name}`)}>
+                        <span>Access file</span>
+                        <FaLink />
+                    </Button>
                 )
             }
         }
