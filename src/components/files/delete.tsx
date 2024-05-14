@@ -32,9 +32,9 @@ export default function DeleteFiles() {
                     <DialogTitle>Delete files</DialogTitle>
                     <DialogDescription>
                         {result || (
-                            <form onSubmit={HandleSubmit} className="pt-4 flex flex-col gap-4">
+                            <form onSubmit={HandleSubmit} className="pt-4 flex flex-col gap-4 text-start">
                                 <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">Take care! These objects will be deleted:</h1>
-                                <ul className="sm:list-decimal sm:pl-4">
+                                <ul className="list-decimal pl-8">
                                     {Object.keys(rowSelection).map((index) => (<li>{files?.[+index].name?.split("/").slice(1)}</li>))}
                                 </ul>
                                 <div className="flex gap-2 dark:text-gray-300 text-gray-700">
