@@ -1,13 +1,15 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { RowSelectionState } from '@tanstack/react-table';
 
 // Create a Context
-const MyContext = createContext<FileContext>({ files: [{ name: "teste", created_at: new Date(), size: 1024 }], setFiles: () => { } });
+const MyContext = createContext<FileContext>({ files: null, setFiles: () => { }, rowSelection: {}, setRowSelection: () => { } });
 
 // Create a Provider component
 export function FileProvider({ children }: { children: React.ReactNode }) {
 
     const [files, setFiles] = useState<File[] | null>(null);
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     useEffect(() => {
 
@@ -34,7 +36,7 @@ export function FileProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <MyContext.Provider value={{ files, setFiles }}>
+        <MyContext.Provider value={{ files, setFiles, rowSelection, setRowSelection }}>
             {children}
         </MyContext.Provider>
     );
@@ -53,5 +55,7 @@ export interface File {
 
 export interface FileContext {
     files: File[] | null,
-    setFiles: React.Dispatch<React.SetStateAction<File[] | null>>
+    setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
+    rowSelection: RowSelectionState,
+    setRowSelection: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
