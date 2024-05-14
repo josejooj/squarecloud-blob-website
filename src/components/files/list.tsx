@@ -11,30 +11,30 @@ import { Checkbox } from "../ui/checkbox";
 
 export default function ListFiles() {
 
-    const { files } = useFileContext();
+    const { files, rowSelection, setRowSelection } = useFileContext();
     const columns: ColumnDef<File>[] = [
         {
             id: "select",
             header: ({ table }) => (
-              <Checkbox
-                checked={
-                  table.getIsAllPageRowsSelected() ||
-                  (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-              />
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
             ),
             cell: ({ row }) => (
-              <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-              />
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
             ),
             enableSorting: false,
             enableHiding: false,
-          },
+        },
         {
             accessorKey: "name",
             header: SortedHeader({ title: "File name" }),
@@ -111,6 +111,12 @@ export default function ListFiles() {
     )
 
     return (
-        <DataTable columns={columns} data={files} no_data_text="Looks like you don't have objects stored." />
+        <DataTable
+            columns={columns}
+            data={files}
+            no_data_text="Looks like you don't have objects stored."
+            rowSelection={rowSelection}
+            onRowSelection={setRowSelection}
+        />
     )
 }
