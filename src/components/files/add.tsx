@@ -90,17 +90,21 @@ export default function AddFile() {
             setFetching(false);
             setTimeout(() => { setResult(null) }, 1000 * 5)
 
-            setFiles(current => {
+            if (xhr.status === 200) {
 
-                if (!current) return null;
+                setFiles(current => {
 
-                return [{
-                    name: data?.response?.url?.split?.("/").slice(3).join("/") || "Unknown.",
-                    created_at: new Date(),
-                    size: file.size
-                }].concat(current);
+                    if (!current) return null;
 
-            })
+                    return [{
+                        name: data?.response?.url?.split?.("/").slice(3).join("/") || "Unknown.",
+                        created_at: new Date(),
+                        size: file.size
+                    }].concat(current);
+
+                });
+                
+            }
 
         }
 
