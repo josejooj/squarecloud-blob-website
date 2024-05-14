@@ -11,8 +11,9 @@ export default function DeleteFiles() {
 
     const [result, setResult] = useState<React.ReactNode>(null);
     const [fetching, setFetching] = useState<boolean>(false);
-    const { rowSelection, files } = useFileContext();
+    const { rowSelection, files: filesContext } = useFileContext();
     const indexes = Object.keys(rowSelection);
+    const files = indexes.map(index => filesContext?.[+index]);
     const HandleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
@@ -37,12 +38,18 @@ export default function DeleteFiles() {
                             <form onSubmit={HandleSubmit} className="pt-4 flex flex-col gap-4 text-start">
                                 <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">
                                     Take care! These {indexes.length} objects will be deleted -&nbsp;
-                                    <span className="text-green-500 dark:text-green-400 font-medium text-sm">
-                                        {prettyBytes(indexes.reduce((a, b) => a + (files?.[+b].size || 0), 0))}
+                                    <span className="text-yellow-400 font-medium text-sm">
+                                        {prettyBytes(files.reduce((a, file) => a + (file!.size || 0), 0))}
                                     </span>:
                                 </h1>
                                 <ul className="list-decimal pl-8">
-                                    {indexes.map((index) => (<li key={index}>{files?.[+index].name?.split("/").slice(1)}</li>))}
+                                    {files.map((file, i) => (
+                                        <li key={i}>
+                                            <span className="text-yellow-400">{prettyBytes(file?.size || 0)}</span>
+                                            &nbsp;-&nbsp;
+                                            <span>{file!.name?.split("/").slice(1)}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                                 <div className="flex gap-2 dark:text-gray-300 text-gray-700">
                                     <CiWarning size={22} className="dark:text-red-500 text-red-500" />
