@@ -86,7 +86,7 @@ export default function DeleteFiles() {
                                         <li key={i}>
                                             <span className="text-yellow-400">{prettyBytes(file?.size || 0)}</span>
                                             &nbsp;-&nbsp;
-                                            <span>{file!.name?.split("/").slice(1)}</span>
+                                            <span className="break-all">{file!.name?.split("/").slice(1)}</span>
                                         </li>
                                     ))}
                                 </ul>
