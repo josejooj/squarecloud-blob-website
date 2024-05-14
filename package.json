@@ -19,6 +19,8 @@
     "@tanstack/react-table": "^8.17.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "eslint-config-next": "^14.2.3",
+    "eslit": "^6.0.0",
     "js-cookie": "^3.0.5",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
@@ -38,7 +40,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
