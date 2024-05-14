@@ -7,11 +7,34 @@ import prettyBytes from "pretty-bytes";
 import { Button } from "../ui/button";
 import ResponsivePopover from "../ResponsivePopover";
 import { FaLink } from "react-icons/fa6";
+import { Checkbox } from "../ui/checkbox";
 
 export default function ListFiles() {
 
     const { files } = useFileContext();
     const columns: ColumnDef<File>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+              <Checkbox
+                checked={
+                  table.getIsAllPageRowsSelected() ||
+                  (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+              />
+            ),
+            cell: ({ row }) => (
+              <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+              />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+          },
         {
             accessorKey: "name",
             header: SortedHeader({ title: "File name" }),
