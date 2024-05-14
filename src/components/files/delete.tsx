@@ -7,19 +7,58 @@ import { useFileContext } from "./provider";
 import { CiWarning } from "react-icons/ci";
 import prettyBytes from "pretty-bytes";
 
+const messages = {
+    "INVALID_OBJECTS": 'You selected some invalid objects, maybe you deleted from another local.',
+    "TOO_MANY_OBJECTS": 'You have exceeded the limit of objects to delete.'
+}
+
 export default function DeleteFiles() {
 
     const [result, setResult] = useState<React.ReactNode>(null);
     const [fetching, setFetching] = useState<boolean>(false);
-    const { rowSelection, files: filesContext } = useFileContext();
+    const { rowSelection, files: filesContext, setFiles, setRowSelection } = useFileContext();
     const indexes = Object.keys(rowSelection);
     const files = indexes.map(index => filesContext?.[+index]);
     const HandleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
 
-        // TODO Create request logic.
+        setFetching(true);
 
+        try {
+
+            const response = await fetch("https://blob.squarecloud.app/v1/delete", {
+                method: 'DELETE',
+                headers: { Authorization: Cookies.get("apikey")! },
+                body: JSON.stringify({ objects: files.map(file => file?.name) })
+            });
+
+            const data = await response.json();
+
+            if (data.code && response.status !== 200) {
+                setResult(messages[data.code as keyof typeof messages] || "An unknown error ocurred.")
+            } else if (response.status === 200) {
+
+                setResult("Objects deleted succesfully!");
+                setFiles(current => {
+
+                    if (!current) return null;
+
+                    return current.filter((item, i) => !rowSelection[i]);
+
+                });
+
+                setRowSelection({});
+
+            }
+
+        } catch (e: any) {
+            setResult("An unknown error ocurred: " + e.message)
+        }
+
+        setTimeout(() => { setResult(null) }, 1000 * 5);
+
+        setFetching(false);
     }
 
     return (
