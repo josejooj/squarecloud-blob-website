@@ -9,6 +9,7 @@ import React, { FormEvent, useState } from "react";
 import Cookies from 'js-cookie';
 import { CiCircleCheck, CiWarning } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
+import { useFileContext } from "./provider";
 
 const messages = {
     'INVALID_FILETYPE': 'Sorry, this file type isn\'t supported yet.',
@@ -41,7 +42,8 @@ const parseJsonBody = async<T extends any = any>(input: any): Promise<T> => {
 export default function AddFile() {
 
     const [result, setResult] = useState<React.ReactNode>(null);
-    const [fetching, setFetching] = useState<boolean>(false)
+    const [fetching, setFetching] = useState<boolean>(false);
+    const { setFiles } = useFileContext();
     const handleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
@@ -51,8 +53,9 @@ export default function AddFile() {
         const originalform = new FormData(event.target as HTMLFormElement);
         const requestform = new FormData();
         const url = new URL("https://blob.squarecloud.app/v1/put");
+        const file = originalform.get("file") as File;
 
-        requestform.append("file", originalform.get("file")!);
+        requestform.append("file", file!);
 
         for (let [key, value] of originalform.entries()) {
 
@@ -85,9 +88,19 @@ export default function AddFile() {
             ))
 
             setFetching(false);
-            setTimeout(() => {
-                setResult(null)
-            }, 1000 * 5)
+            setTimeout(() => { setResult(null) }, 1000 * 5)
+
+            setFiles(current => {
+
+                if (!current) return null;
+
+                return [{
+                    name: data?.response?.url?.split?.("/").slice(3).join("/") || "Unknown.",
+                    created_at: new Date(),
+                    size: file.size
+                }].concat(current);
+
+            })
 
         }
 
