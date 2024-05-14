@@ -5,12 +5,14 @@ import React, { FormEvent, useState } from "react";
 import Cookies from 'js-cookie';
 import { useFileContext } from "./provider";
 import { CiWarning } from "react-icons/ci";
+import prettyBytes from "pretty-bytes";
 
 export default function DeleteFiles() {
 
     const [result, setResult] = useState<React.ReactNode>(null);
     const [fetching, setFetching] = useState<boolean>(false);
     const { rowSelection, files } = useFileContext();
+    const indexes = Object.keys(rowSelection);
     const HandleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
@@ -24,7 +26,7 @@ export default function DeleteFiles() {
             <DialogTrigger asChild>
                 <Button
                     variant={'destructive'}
-                    disabled={!Object.keys(rowSelection).length}
+                    disabled={!indexes.length}
                 >Delete files</Button>
             </DialogTrigger>
             <DialogContent className="dark:bg-black border-2">
@@ -33,9 +35,14 @@ export default function DeleteFiles() {
                     <DialogDescription>
                         {result || (
                             <form onSubmit={HandleSubmit} className="pt-4 flex flex-col gap-4 text-start">
-                                <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">Take care! These objects will be deleted:</h1>
+                                <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">
+                                    Take care! These {indexes.length} objects will be deleted -&nbsp;
+                                    <span className="text-green-500 dark:text-green-400 font-medium text-sm">
+                                        {prettyBytes(indexes.reduce((a, b) => a + (files?.[+b].size || 0), 0))}
+                                    </span>:
+                                </h1>
                                 <ul className="list-decimal pl-8">
-                                    {Object.keys(rowSelection).map((index) => (<li>{files?.[+index].name?.split("/").slice(1)}</li>))}
+                                    {indexes.map((index) => (<li key={index}>{files?.[+index].name?.split("/").slice(1)}</li>))}
                                 </ul>
                                 <div className="flex gap-2 dark:text-gray-300 text-gray-700">
                                     <CiWarning size={22} className="dark:text-red-500 text-red-500" />
