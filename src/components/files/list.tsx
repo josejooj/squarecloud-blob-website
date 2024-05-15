@@ -124,6 +124,7 @@ export default function ListFiles() {
             rowSelection={rowSelection}
             onRowSelection={setRowSelection}
             CustomHeader={CustomHeader}
+            pagination={true}
         />
     )
 }
