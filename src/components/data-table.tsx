@@ -1,17 +1,20 @@
-import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, Table as TableT, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import React, { useState } from "react";
 import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
+
+type CustomHeader = ({ table }: { table: TableT<any> }) => React.JSX.Element
 
 interface Props<T> {
     columns: ColumnDef<T>[],
     data: T[],
     no_data_text?: string | React.ReactNode,
     rowSelection?: RowSelectionState,
-    onRowSelection?: OnChangeFn<RowSelectionState>
+    onRowSelection?: OnChangeFn<RowSelectionState>,
+    CustomHeader?: CustomHeader
 }
 
-export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection }: Props<T>) {
+export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection, CustomHeader }: Props<T>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
     const options: TableOptions<T> = {
@@ -27,51 +30,55 @@ export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowS
     if (onRowSelection) options.onRowSelectionChange = onRowSelection;
 
     const table = useReactTable(options)
+    const Header: CustomHeader = CustomHeader || (() => <></>)
 
     return (
-        <div className="rounded-md border">
-            <Table>
-                <TableHeader className="dark:bg-gray-950 bg-slate-100">
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <TableHead key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                    </TableHead>
-                                )
-                            })}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
-                                ))}
+        <div className="flex flex-col gap-2">
+            <Header table={table} />
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader className="dark:bg-gray-950 bg-slate-100">
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
+                                    )
+                                })}
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                {no_data_text || "No results."}
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    {no_data_text || "No results."}
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     )
 
