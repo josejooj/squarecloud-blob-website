@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import ResponsivePopover from "../ResponsivePopover";
 import { FaLink } from "react-icons/fa6";
 import { Checkbox } from "../ui/checkbox";
+import CustomHeader from "./custom_header";
 
 export default function ListFiles() {
 
@@ -107,7 +108,12 @@ export default function ListFiles() {
     ]
 
     if (files === null) return (
-        <DataTable columns={columns} data={[]} no_data_text="Loading your files..." />
+        <DataTable
+            columns={columns}
+            data={[]}
+            no_data_text="Loading your files..."
+            CustomHeader={CustomHeader}
+        />
     )
 
     return (
@@ -117,6 +123,7 @@ export default function ListFiles() {
             no_data_text="Looks like you don't have objects stored."
             rowSelection={rowSelection}
             onRowSelection={setRowSelection}
+            CustomHeader={CustomHeader}
         />
     )
 }
