@@ -1,15 +1,23 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { RowSelectionState } from '@tanstack/react-table';
+import { ColumnFiltersState, RowSelectionState } from '@tanstack/react-table';
 
 // Create a Context
-const MyContext = createContext<FileContext>({ files: null, setFiles: () => { }, rowSelection: {}, setRowSelection: () => { } });
+const MyContext = createContext<FileContext>({
+    files: null,
+    setFiles: () => { },
+    rowSelection: {},
+    setRowSelection: () => { },
+    columnFilters: [],
+    setColumnFilters: () => { }
+});
 
 // Create a Provider component
 export function FileProvider({ children }: { children: React.ReactNode }) {
 
     const [files, setFiles] = useState<File[] | null>(null);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     useEffect(() => {
 
@@ -36,7 +44,7 @@ export function FileProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <MyContext.Provider value={{ files, setFiles, rowSelection, setRowSelection }}>
+        <MyContext.Provider value={{ files, setFiles, rowSelection, setRowSelection, columnFilters, setColumnFilters }}>
             {children}
         </MyContext.Provider>
     );
@@ -58,4 +66,6 @@ export interface FileContext {
     setFiles: React.Dispatch<React.SetStateAction<File[] | null>>,
     rowSelection: RowSelectionState,
     setRowSelection: React.Dispatch<React.SetStateAction<RowSelectionState>>
+    columnFilters: ColumnFiltersState,
+    setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>
 }
