@@ -7,7 +7,7 @@ export default function SetPage({ table }: { table: Table<File> }) {
 
 
     return (
-        <div className="flex gap-2">
+        <div className="flex flex-nowrap gap-2">
             <Button
                 variant={'ghost'}
                 className="px-2 border-2"
@@ -16,9 +16,9 @@ export default function SetPage({ table }: { table: Table<File> }) {
             >
                 <MdKeyboardArrowLeft size={24} />
             </Button>
-            <div className="text-sm">
+            <div className="text-sm flex items-center flex-nowrap">
                 <input
-                    className="h-full bg-transparent focus:outline-none cursor-default"
+                    className="bg-transparent focus:outline-none cursor-default"
                     style={{ width: `${(table.getState().pagination.pageIndex + 1).toString().length + 1}ch` }}
                     value={table.getState().pagination.pageIndex + 1}
                     onChange={e => {
@@ -31,7 +31,8 @@ export default function SetPage({ table }: { table: Table<File> }) {
 
                     }}
                 />
-                / {table.getPageCount()}
+                <span className="pr-2">of</span>
+                <span>{table.getPageCount()}</span>
             </div>
             <Button
                 variant={'ghost'}
