@@ -2,18 +2,8 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { ColumnFiltersState, RowSelectionState } from '@tanstack/react-table';
 
-// Create a Context
-const MyContext = createContext<FileContext>({
-    files: null,
-    setFiles: () => { },
-    rowSelection: {},
-    setRowSelection: () => { },
-    columnFilters: [],
-    setColumnFilters: () => { }
-});
-
-// Create a Provider component
-export function FileProvider({ children }: { children: React.ReactNode }) {
+const FileContext = createContext<FileContext | null>(null);
+const FileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [files, setFiles] = useState<File[] | null>(null);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -44,15 +34,19 @@ export function FileProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <MyContext.Provider value={{ files, setFiles, rowSelection, setRowSelection, columnFilters, setColumnFilters }}>
+        <FileContext.Provider value={{ files, setFiles, rowSelection, setRowSelection, columnFilters, setColumnFilters }}>
             {children}
-        </MyContext.Provider>
+        </FileContext.Provider>
     );
 }
 
-// Create a custom hook for convenience
-export function useFileContext() {
-    return useContext(MyContext);
+const useFileContext = () => {
+
+    const context = useContext(FileContext);
+
+    if (!context) throw new Error('useFileContext must be used within a FileProvider');
+    return context;
+
 }
 
 export interface File {
@@ -68,4 +62,9 @@ export interface FileContext {
     setRowSelection: React.Dispatch<React.SetStateAction<RowSelectionState>>
     columnFilters: ColumnFiltersState,
     setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>
+}
+
+export {
+    FileProvider,
+    useFileContext
 }
