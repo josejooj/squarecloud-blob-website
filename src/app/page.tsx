@@ -6,7 +6,7 @@ import { Suspense } from "react";
 export default function Home() {
 
   return (
-    <Main className="py-8 flex flex-col gap-4">
+    <Main className="pt-8 pb-4 flex flex-col gap-4">
       <Suspense fallback={<UserSkeleton />}><User /></Suspense>
       <FileManager />
     </Main>
