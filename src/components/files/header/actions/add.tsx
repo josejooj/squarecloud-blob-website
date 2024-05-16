@@ -1,15 +1,15 @@
 'use client';
 import { cn } from "@/lib/utils";
-import { DialogContent, DialogTrigger, Dialog, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
+import { DialogContent, DialogTrigger, Dialog, DialogHeader, DialogTitle, DialogDescription } from "../../../ui/dialog";
+import { Input } from "../../../ui/input";
+import { Label } from "../../../ui/label";
+import { Checkbox } from "../../../ui/checkbox";
+import { Button } from "../../../ui/button";
 import React, { FormEvent, useState } from "react";
 import Cookies from 'js-cookie';
 import { CiCircleCheck, CiWarning } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
-import { useFileContext } from "./provider";
+import { useFileContext } from "../../provider";
 
 const messages = {
     'INVALID_FILETYPE': 'Sorry, this file type isn\'t supported yet.',

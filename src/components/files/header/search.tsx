@@ -1,6 +1,6 @@
 import { Table } from "@tanstack/react-table";
-import { File } from "./provider";
-import { Input } from "../ui/input";
+import { File } from "../provider";
+import { Input } from "../../ui/input";
 
 export default function Search({ table }: { table: Table<File> }) {
 

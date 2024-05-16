@@ -1,6 +1,6 @@
 import { Table } from "@tanstack/react-table";
-import { File } from "./provider";
-import { Button } from "../ui/button";
+import { File } from "../provider";
+import { Button } from "../../ui/button";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 export default function SetPage({ table }: { table: Table<File> }) {

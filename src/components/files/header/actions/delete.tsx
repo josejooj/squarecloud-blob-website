@@ -1,9 +1,9 @@
 'use client';
-import { DialogContent, DialogTrigger, Dialog, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "../ui/dialog";
-import { Button } from "../ui/button";
+import { DialogContent, DialogTrigger, Dialog, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "../../../ui/dialog";
+import { Button } from "../../../ui/button";
 import React, { FormEvent, useState } from "react";
 import Cookies from 'js-cookie';
-import { useFileContext } from "./provider";
+import { useFileContext } from "../../provider";
 import { CiWarning } from "react-icons/ci";
 import prettyBytes from "pretty-bytes";
 

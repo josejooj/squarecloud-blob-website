@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import ResponsivePopover from "../ResponsivePopover";
 import { FaLink } from "react-icons/fa6";
 import { Checkbox } from "../ui/checkbox";
-import CustomHeader from "./custom_header";
+import CustomHeader from "./header/custom_header";
 
 export default function ListFiles() {
 
