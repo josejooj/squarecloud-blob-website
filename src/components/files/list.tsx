@@ -12,7 +12,7 @@ import CustomHeader from "./custom_header";
 
 export default function ListFiles() {
 
-    const { files, rowSelection, setRowSelection } = useFileContext();
+    const { files, rowSelection, setRowSelection, columnFilters, setColumnFilters } = useFileContext();
     const columns: ColumnDef<File>[] = [
         {
             id: "select",
@@ -125,6 +125,8 @@ export default function ListFiles() {
             onRowSelection={setRowSelection}
             CustomHeader={CustomHeader}
             pagination={true}
+            columnFilters={columnFilters}
+            setColumnFilters={setColumnFilters}
         />
     )
 }
