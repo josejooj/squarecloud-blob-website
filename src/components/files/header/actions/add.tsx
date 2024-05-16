@@ -113,7 +113,7 @@ export default function AddFile() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={'outline'} className="bg-green-300 dark:bg-green-600">Add item to blob</Button>
+                <Button variant={'outline'} className="bg-green-300 dark:bg-green-700">Add item to blob</Button>
             </DialogTrigger>
             <DialogContent className="dark:bg-black border-2">
                 <DialogHeader>
