@@ -2,13 +2,17 @@ import { Table } from "@tanstack/react-table";
 import { File, useFileContext } from "../provider";
 import { Button } from "../../ui/button";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function SetPage({ table }: { table: Table<File> }) {
 
     const { fetchFiles, files } = useFileContext();
+    const [mounted, setMounted] = useState(false);
     const setPageOnHookUpdate = useRef<number>(0);
+    const leftBtn = useRef<HTMLButtonElement>(null);
+    const rightBtn = useRef<HTMLButtonElement>(null);
 
+    useEffect(() => { setMounted(true); }, [])
     useEffect(() => {
 
         if (setPageOnHookUpdate.current) setTimeout(() => {
@@ -17,9 +21,21 @@ export default function SetPage({ table }: { table: Table<File> }) {
 
     }, [files])
 
+    useEffect(() => {
+
+        if (!mounted) return;
+
+        document.addEventListener('keydown', e => {
+            if (e.key === "ArrowLeft") return leftBtn.current?.click();
+            if (e.key === "ArrowRight") return rightBtn.current?.click();
+        })
+
+    }, [mounted])
+
     return (
         <div className="flex flex-nowrap gap-2">
             <Button
+                ref={leftBtn}
                 variant={'ghost'}
                 className="px-2 border-2"
                 onClick={() => {
@@ -59,6 +75,7 @@ export default function SetPage({ table }: { table: Table<File> }) {
                 <span>{table.getPageCount()}</span>
             </div>
             <Button
+                ref={rightBtn}
                 variant={'ghost'}
                 className="px-2 border-2"
                 onClick={async () => {
