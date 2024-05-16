@@ -81,7 +81,7 @@ export default function DeleteFiles() {
                                         {prettyBytes(files.reduce((a, file) => a + (file!.size || 0), 0))}
                                     </span>:
                                 </h1>
-                                <ul className="list-decimal pl-8">
+                                <ul className="list-decimal pl-8 max-h-64 overflow-y-auto">
                                     {files.map((file, i) => (
                                         <li key={i}>
                                             <span className="text-yellow-400">{prettyBytes(file?.size || 0)}</span>
