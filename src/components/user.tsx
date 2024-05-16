@@ -92,7 +92,7 @@ export async function User() {
                 <Image
                     src={`https://gravatar.com/avatar/${user_avatar_hash}?d=mp`}
                     width={64}
-                    height={24}
+                    height={64}
                     alt="Profile picture"
                     className="rounded-lg"
                 />
