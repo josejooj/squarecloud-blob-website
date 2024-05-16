@@ -1,5 +1,28 @@
-import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, Table as TableT, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable, getPaginationRowModel, ColumnFiltersState, getFilteredRowModel } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import {
+    ColumnDef,
+    OnChangeFn,
+    RowSelectionState,
+    SortingState,
+    Table as TableT,
+    TableOptions,
+    flexRender,
+    getCoreRowModel,
+    getSortedRowModel,
+    useReactTable,
+    getPaginationRowModel,
+    ColumnFiltersState,
+    getFilteredRowModel
+} from "@tanstack/react-table";
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from "./ui/table";
+
 import React, { useState } from "react";
 import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
 
@@ -17,7 +40,17 @@ interface Props<T> {
     setColumnFilters?: React.Dispatch<React.SetStateAction<ColumnFiltersState>>
 }
 
-export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection, CustomHeader, pagination, columnFilters, setColumnFilters }: Props<T>) {
+export function DataTable<T>({
+    columns,
+    data,
+    no_data_text,
+    rowSelection,
+    onRowSelection,
+    CustomHeader,
+    pagination,
+    columnFilters,
+    setColumnFilters
+}: Props<T>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
     const options: TableOptions<T> = {
@@ -29,15 +62,17 @@ export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowS
         state: { sorting }
     }
 
-    if (rowSelection) options.state!.rowSelection = rowSelection;
-    if (onRowSelection) options.onRowSelectionChange = onRowSelection;
+    if (pagination) options.getPaginationRowModel = getPaginationRowModel();
+    if (rowSelection && onRowSelection) {
+        options.state!.rowSelection = rowSelection;
+        options.onRowSelectionChange = onRowSelection;
+    }
+
     if (columnFilters && setColumnFilters) {
         options.getFilteredRowModel = getFilteredRowModel();
         options.state!.columnFilters = columnFilters;
         options.onColumnFiltersChange = setColumnFilters;
     }
-
-    if (pagination) options.getPaginationRowModel = getPaginationRowModel();
 
     const table = useReactTable(options)
     const Header: CustomHeader = CustomHeader || (() => <></>)
