@@ -1,4 +1,4 @@
-import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, Table as TableT, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable, getPaginationRowModel } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, RowSelectionState, SortingState, Table as TableT, TableOptions, flexRender, getCoreRowModel, getSortedRowModel, useReactTable, getPaginationRowModel, ColumnFiltersState, getFilteredRowModel } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import React, { useState } from "react";
 import { FaArrowDownUpAcrossLine, FaArrowDownZA, FaArrowUpZA } from "react-icons/fa6";
@@ -12,10 +12,12 @@ interface Props<T> {
     rowSelection?: RowSelectionState,
     onRowSelection?: OnChangeFn<RowSelectionState>,
     CustomHeader?: CustomHeader,
-    pagination?: boolean
+    pagination?: boolean,
+    columnFilters?: ColumnFiltersState,
+    setColumnFilters?: React.Dispatch<React.SetStateAction<ColumnFiltersState>>
 }
 
-export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection, CustomHeader, pagination }: Props<T>) {
+export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowSelection, CustomHeader, pagination, columnFilters, setColumnFilters }: Props<T>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
     const options: TableOptions<T> = {
@@ -29,6 +31,12 @@ export function DataTable<T>({ columns, data, no_data_text, rowSelection, onRowS
 
     if (rowSelection) options.state!.rowSelection = rowSelection;
     if (onRowSelection) options.onRowSelectionChange = onRowSelection;
+    if (columnFilters && setColumnFilters) {
+        options.getFilteredRowModel = getFilteredRowModel();
+        options.state!.columnFilters = columnFilters;
+        options.onColumnFiltersChange = setColumnFilters;
+    }
+
     if (pagination) options.getPaginationRowModel = getPaginationRowModel();
 
     const table = useReactTable(options)
