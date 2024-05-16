@@ -1,6 +1,14 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { ColumnFiltersState, RowSelectionState } from '@tanstack/react-table';
+
+interface GetListFilesResponse {
+    status: "success" | "error"
+    response: {
+        objects: Array<File>,
+        continuationToken?: string
+    }
+}
 
 const FileContext = createContext<FileContext | null>(null);
 const FileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -8,33 +16,51 @@ const FileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     const [files, setFiles] = useState<File[] | null>(null);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const continuationToken = useRef<string>("");
+    const fetching = useRef<boolean>(false);
+    const fetchFiles = async () => {
 
-    useEffect(() => {
+        if (fetching.current) return;
 
-        const fetcher = async () => {
+        fetching.current = true
 
-            const response = await fetch("https://blob.squarecloud.app/v1/list", {
+        try {
+
+            const url = new URL("https://blob.squarecloud.app/v1/list");
+
+            if (continuationToken.current) url.searchParams.append('continuationToken', continuationToken.current);
+            else if (files?.length) return;
+
+            const response = await fetch(url.toString(), {
                 headers: { Authorization: Cookies.get("apikey")! }
-            }).catch(e => e);
+            });
 
-            const data = await response.json?.().catch(() => { }) || {};
+            const data: GetListFilesResponse = await response.json();
 
-            if (response.status !== 200 || !data.response.objects) return;
+            if (response.status === 200 && data.response.objects) {
 
-            for (const object of data.response.objects) {
-                object.created_at = new Date(object.created_at)
+                for (const object of data.response.objects) {
+                    object.created_at = new Date(object.created_at)
+                }
+
+                setFiles(c => c === null ? data.response.objects : [...c, ...data.response.objects]);
+
+                continuationToken.current = data.response.continuationToken || ""
+
             }
 
-            setFiles(data.response.objects);
+        } catch (e) {
 
         }
 
-        fetcher();
+        fetching.current = false;
 
-    }, [])
+    }
+
+    useEffect(() => { fetchFiles(); }, [])
 
     return (
-        <FileContext.Provider value={{ files, setFiles, rowSelection, setRowSelection, columnFilters, setColumnFilters }}>
+        <FileContext.Provider value={{ files, setFiles, rowSelection, setRowSelection, columnFilters, setColumnFilters, fetchFiles }}>
             {children}
         </FileContext.Provider>
     );
@@ -62,6 +88,7 @@ export interface FileContext {
     setRowSelection: React.Dispatch<React.SetStateAction<RowSelectionState>>
     columnFilters: ColumnFiltersState,
     setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>
+    fetchFiles: () => Promise<any>
 }
 
 export {
