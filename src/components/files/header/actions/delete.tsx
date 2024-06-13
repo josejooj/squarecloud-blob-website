@@ -27,7 +27,7 @@ export default function DeleteFiles() {
 
         try {
 
-            const response = await fetch("https://blob.squarecloud.app/v1/delete", {
+            const response = await fetch("https://blob.squarecloud.app/v1/objects", {
                 method: 'DELETE',
                 headers: { Authorization: Cookies.get("apikey")! },
                 body: JSON.stringify({ objects: files.map(file => file?.name) })

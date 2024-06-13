@@ -52,7 +52,7 @@ export default function AddFile() {
 
         const originalform = new FormData(event.target as HTMLFormElement);
         const requestform = new FormData();
-        const url = new URL("https://blob.squarecloud.app/v1/put");
+        const url = new URL("https://blob.squarecloud.app/v1/objects");
         const file = originalform.get("file") as File;
 
         requestform.append("file", file!);
@@ -68,7 +68,7 @@ export default function AddFile() {
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open("PUT", url.toString());
+        xhr.open("POST", url.toString());
         xhr.setRequestHeader('Authorization', Cookies.get('apikey')!);
         xhr.send(requestform);
         xhr.onload = async () => {

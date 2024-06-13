@@ -26,7 +26,7 @@ const FileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
         try {
 
-            const url = new URL("https://blob.squarecloud.app/v1/list");
+            const url = new URL("https://blob.squarecloud.app/v1/objects");
 
             if (continuationToken.current) url.searchParams.append('continuationToken', continuationToken.current);
             else if (files?.length) return;
