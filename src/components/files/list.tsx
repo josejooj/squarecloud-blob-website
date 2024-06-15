@@ -37,13 +37,13 @@ export default function ListFiles() {
             enableHiding: false,
         },
         {
-            accessorKey: "name",
-            header: SortedHeader({ title: "File name" }),
+            accessorKey: "id",
+            header: SortedHeader({ title: "ID" }),
             cell: ({ getValue }) => {
 
                 const value = getValue<string>();
 
-                return value.split("/").slice(1).join("/")
+                return value;
 
             }
         },
@@ -98,7 +98,7 @@ export default function ListFiles() {
             header: " ",
             cell: ({ row }) => {
                 return (
-                    <Button className="w-full flex items-center gap-2" variant="link" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.name}`)}>
+                    <Button className="w-full flex items-center gap-2" variant="link" onClick={() => open(`https://public-blob.squarecloud.dev/${row.original.id}`)}>
                         <span>Access file</span>
                         <FaLink />
                     </Button>

@@ -97,7 +97,7 @@ export default function AddFile() {
                     if (!current) return null;
 
                     return [{
-                        name: data?.response?.url?.split?.("/").slice(3).join("/") || "Unknown.",
+                        id: data?.response?.id || "Unknown.",
                         created_at: new Date(),
                         size: file.size
                     }].concat(current);

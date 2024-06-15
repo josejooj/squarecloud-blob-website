@@ -30,7 +30,7 @@ export default function DeleteFiles() {
             const response = await fetch("https://blob.squarecloud.app/v1/objects", {
                 method: 'DELETE',
                 headers: { Authorization: Cookies.get("apikey")! },
-                body: JSON.stringify({ objects: files.map(file => file?.name) })
+                body: JSON.stringify({ objects: files.map(file => file?.id) })
             });
 
             const data = await response.json();
@@ -86,7 +86,7 @@ export default function DeleteFiles() {
                                         <li key={i}>
                                             <span className="text-yellow-400">{prettyBytes(file?.size || 0)}</span>
                                             &nbsp;-&nbsp;
-                                            <span className="break-all">{file!.name?.split("/").slice(1)}</span>
+                                            <span className="break-all">{file!.id?.split("/").slice(1)}</span>
                                         </li>
                                     ))}
                                 </ul>
