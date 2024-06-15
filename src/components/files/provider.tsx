@@ -76,7 +76,7 @@ const useFileContext = () => {
 }
 
 export interface File {
-    name: string,
+    id: string,
     created_at: Date,
     size: number
 }
