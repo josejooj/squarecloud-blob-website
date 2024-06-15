@@ -9,11 +9,11 @@ export default function Search({ table }: { table: Table<File> }) {
         <div className="flex items-center gap-2 w-full border rounded-md px-2 dark:text-gray-300">
             <IoMdSearch size={24} className=""/>
             <input
-                placeholder="Search by file name"
+                placeholder="Search by ID"
                 className="w-full py-2 text-sm bg-transparent focus:outline-none"
-                value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
                 onChange={(event) =>
-                    table.getColumn("name")?.setFilterValue(event.target.value)
+                    table.getColumn("id")?.setFilterValue(event.target.value)
                 }
             />
         </div>
