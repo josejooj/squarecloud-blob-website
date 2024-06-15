@@ -9,18 +9,11 @@ export default function Header() {
         <header className="flex gap-2 w-full max-w-[1200px] items-center justify-between px-1 py-2">
             <Link href="https://squarecloud.app" className="flex items-center gap-2">
                 <Image
-                    src={`/logo-dark-nobg.png`}
-                    width={64}
-                    height={64}
-                    alt="Square Cloud Logo"
-                    className="dark:hidden"
-                />
-                <Image
                     src="/logo-white-nobg.png"
                     width={64}
                     height={64}
                     alt="Square Cloud Logo"
-                    className="hidden dark:block"
+                    className="invert dark:invert-0"
                 />
                 <h1 className="text-2xl font-bold">Blob</h1>
             </Link>
