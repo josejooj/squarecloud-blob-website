@@ -50,7 +50,7 @@ export function UserSkeleton() {
     return (
         <div className="flex flex-col gap-4">
             <nav className="flex gap-4">
-                <Skeleton className="rounded-lg w-16 h-16"/>
+                <Skeleton className="rounded-lg w-16 h-16" />
                 <section className="flex flex-col gap-2">
                     <Skeleton className="w-32 h-8" />
                     <Skeleton className="w-64 h-6" />
@@ -68,7 +68,7 @@ export function UserSkeleton() {
 export async function User() {
 
     const cookie = cookies();
-    const res = await fetch("https://api.squarecloud.app/v2/user", {
+    const res = await fetch("https://api.squarecloud.app/v2/users/me", {
         headers: { Authorization: cookie.get("apikey")?.value! }
     });
 
@@ -78,7 +78,6 @@ export async function User() {
     }
 
     const user = await res.json().then(r => r.response.user);
-
     const stats_res = await fetch("https://blob.squarecloud.app/v1/account/stats", {
         headers: { Authorization: cookie.get("apikey")?.value! }
     });
@@ -97,7 +96,7 @@ export async function User() {
                     className="rounded-lg"
                 />
                 <section className="flex flex-col gap-2">
-                    <h1 className="font-bold text-3xl">{user.tag}</h1>
+                    <h1 className="font-bold text-3xl">{user.name}</h1>
                     <div className="flex items-center gap-2 dark:text-gray-300 text-gray-700">
                         <FaAddressCard />
                         <h3 className="text-sm font-medium dark:text-gray-400 text-gray-600">{user.id}</h3>

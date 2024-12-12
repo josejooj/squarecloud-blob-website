@@ -19,7 +19,7 @@ export default async function handler(
     try {
 
         const { authorization } = req.headers;
-        const response = await fetch('https://api.squarecloud.app/v2/user', {
+        const response = await fetch('https://api.squarecloud.app/v2/users/me', {
             headers: { Authorization: authorization! }
         })
 
