@@ -5,13 +5,13 @@ import { IconType } from "react-icons";
 import { IoServerSharp } from "react-icons/io5";
 import { FaFileAlt } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
-import prettyBytes from "pretty-bytes";
 import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import crypto from 'crypto';
 import Image from "next/image";
 import { FaAddressCard } from "react-icons/fa";
+import { formatBytes } from "@/lib/bytes";
 
 interface CardProps {
     title: string,
@@ -116,7 +116,7 @@ export async function User() {
                     icon={IoServerSharp}
                     value={
                         status?.size ?
-                            prettyBytes(status.size)
+                            formatBytes(status.size)
                             :
                             "Unavailable"
                     }

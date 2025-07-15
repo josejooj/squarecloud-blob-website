@@ -1,14 +1,12 @@
 'use client';
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable, SortedHeader } from "../data-table";
-import { Label } from "../ui/label";
 import { File, useFileContext } from "./provider";
-import prettyBytes from "pretty-bytes";
 import { Button } from "../ui/button";
-import ResponsivePopover from "../ResponsivePopover";
 import { FaLink } from "react-icons/fa6";
 import { Checkbox } from "../ui/checkbox";
 import CustomHeader from "./header/custom_header";
+import { formatBytes } from "@/lib/bytes";
 
 export default function ListFiles() {
 
@@ -89,7 +87,7 @@ export default function ListFiles() {
                 const color = `#${interpolatedColor.join('')}`;
 
                 return (
-                    <span className="font-bold" style={{ color }}>{prettyBytes(value)}</span>
+                    <span className="font-bold" style={{ color }}>{formatBytes(value)}</span>
                 )
 
             }

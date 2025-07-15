@@ -5,7 +5,7 @@ import React, { FormEvent, useState } from "react";
 import Cookies from 'js-cookie';
 import { useFileContext } from "../../provider";
 import { CiWarning } from "react-icons/ci";
-import prettyBytes from "pretty-bytes";
+import { formatBytes } from "@/lib/bytes";
 
 const messages = {
     "INVALID_OBJECTS": 'You selected some invalid objects, maybe you deleted from another local.',
@@ -78,13 +78,13 @@ export default function DeleteFiles() {
                                 <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">
                                     Take care! These {indexes.length} objects will be deleted -&nbsp;
                                     <span className="text-yellow-400 font-medium text-sm">
-                                        {prettyBytes(files.reduce((a, file) => a + (file!.size || 0), 0))}
+                                        {formatBytes(files.reduce((a, file) => a + (file!.size || 0), 0))}
                                     </span>:
                                 </h1>
                                 <ul className="list-decimal pl-8 max-h-64 overflow-y-auto">
                                     {files.map((file, i) => (
                                         <li key={i}>
-                                            <span className="text-yellow-400">{prettyBytes(file?.size || 0)}</span>
+                                            <span className="text-yellow-400">{formatBytes(file?.size || 0)}</span>
                                             &nbsp;-&nbsp;
                                             <span className="break-all">{file!.id?.split("/").slice(1)}</span>
                                         </li>
