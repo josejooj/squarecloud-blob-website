@@ -1,0 +1,36 @@
+name: "Create release and deploy to Square"
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: "${{ github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'chore(release): ') }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+            node-version: 22
+      - run: npm install
+
+      - name: Save current version on environment
+        run: echo "CURRENT_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Build website
+        run: npm run build && chmod -R 777 .next next.config.ts package.json
+
+      - name: Add website to zip
+        run: zip -r build.zip package.json .next next.config.ts public -x@.zipignore && stat build.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.CURRENT_VERSION }}
+          name: ${{ env.CURRENT_VERSION }}
+          files: build.zip
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
