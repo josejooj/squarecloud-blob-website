@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 80",
-    "lint": "next lint"
+    "lint": "next lint",
+    "release": "./scripts/release.sh"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",
