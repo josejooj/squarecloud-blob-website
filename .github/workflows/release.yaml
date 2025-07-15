@@ -2,6 +2,8 @@ name: "Create release and deploy to Square"
 
 on:
   push:
+    tags:
+      - '*'
 
 permissions:
   contents: write
@@ -9,7 +11,6 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: "${{ github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'chore(release): ') }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
