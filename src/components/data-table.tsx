@@ -80,9 +80,9 @@ export function DataTable<T>({
     return (
         <div className="flex flex-col gap-2">
             <Header table={table} />
-            <div className="rounded-md border">
+            <div className="rounded-md border transition-colors duration-500">
                 <Table>
-                    <TableHeader className="bg-card">
+                    <TableHeader className="bg-card transition-colors duration-500">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {

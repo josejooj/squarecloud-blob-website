@@ -21,7 +21,7 @@ interface CardProps {
 
 function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
     return (
-        <section className="p-2 rounded-md border-2 bg-card">
+        <section className="p-2 rounded-md border-2 bg-card transition-colors duration-500">
             <div className="flex items-center justify-between pb-2">
                 <nav className="flex items-center gap-2">
                     <Icon size={18} />
