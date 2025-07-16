@@ -25,22 +25,11 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
             header: SortedHeader({ title: "Created At" }),
             accessorKey: "created_at",
             cell: ({ getValue }) => {
-
-                const value = getValue<Date>();
-                const DateFormatter = Intl.DateTimeFormat(navigator.language, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "2-digit",
-                    minute: "2-digit",
-                    hour: "2-digit"
-                });
-
                 return (
-                    <span className="font-semibold font-mono" suppressHydrationWarning>
-                        {DateFormatter.format(new Date(value))}
+                    <span className="font-semibold font-mono">
+                        {new Date(getValue<string>()).toLocaleString()}
                     </span>
                 )
-
             }
         },
         {
