@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <Main className="pt-8 pb-4 flex flex-col gap-4">
       <UserDetails user={user} stats={stats} />
-      <FileManager />
+      <FileManager user={user} objects={objects} />
     </Main>
   );
 }

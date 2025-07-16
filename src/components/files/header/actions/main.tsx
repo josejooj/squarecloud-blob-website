@@ -2,8 +2,10 @@ import ResponsivePopover from "@/components/ResponsivePopover";
 import { Button } from "@/components/ui/button";
 import AddFile from "./add";
 import DeleteFiles from "./delete";
+import { type Object } from "@/interfaces/list";
+import { User } from "@/interfaces/user";
 
-export default function Actions() {
+export default function Actions({ objects, user }: { objects: Object[], user: User }) {
 
     return (
         <ResponsivePopover
@@ -11,8 +13,8 @@ export default function Actions() {
         >
             <div className="text-sm font-medium text-center w-full mt-2 mb-4">Actions</div>
             <div className="flex flex-col gap-2">
-                <AddFile />
-                <DeleteFiles />
+                <AddFile user={user} />
+                <DeleteFiles objects={objects} user={user} />
             </div>
         </ResponsivePopover>
     )

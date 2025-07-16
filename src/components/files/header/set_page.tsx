@@ -1,26 +1,17 @@
 import { Table } from "@tanstack/react-table";
-import { File, useFileContext } from "../provider";
+import { File } from "../provider";
 import { Button } from "../../ui/button";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 
 export default function SetPage({ table }: { table: Table<File> }) {
 
-    const { fetchFiles, files } = useFileContext();
     const [mounted, setMounted] = useState(false);
     const setPageOnHookUpdate = useRef<number>(0);
     const leftBtn = useRef<HTMLButtonElement>(null);
     const rightBtn = useRef<HTMLButtonElement>(null);
 
     useEffect(() => { setMounted(true); }, [])
-    useEffect(() => {
-
-        if (setPageOnHookUpdate.current) setTimeout(() => {
-            table.setPageIndex(setPageOnHookUpdate.current);
-        }, 100);
-
-    }, [files])
-
     useEffect(() => {
 
         if (!mounted) return;
@@ -60,11 +51,7 @@ export default function SetPage({ table }: { table: Table<File> }) {
                         table.setPageIndex(page - 1);
 
                         if (page === table.getPageCount()) {
-
                             setPageOnHookUpdate.current = page - 1;
-
-                            await fetchFiles();
-
                         } else {
                             setPageOnHookUpdate.current = 0;
                         }
@@ -85,11 +72,7 @@ export default function SetPage({ table }: { table: Table<File> }) {
                     const nextPageIndex = table.getState().pagination.pageIndex + 1
 
                     if (nextPageIndex === table.getPageCount() - 1) {
-
                         setPageOnHookUpdate.current = nextPageIndex;
-
-                        await fetchFiles();
-
                     } else {
                         setPageOnHookUpdate.current = 0;
                     }

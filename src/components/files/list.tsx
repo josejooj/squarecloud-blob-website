@@ -1,17 +1,19 @@
 'use client';
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable, SortedHeader } from "../data-table";
-import { File, useFileContext } from "./provider";
+import { useFileContext } from "./provider";
 import { Button } from "../ui/button";
 import { FaLink } from "react-icons/fa6";
 import { Checkbox } from "../ui/checkbox";
 import CustomHeader from "./header/custom_header";
 import { formatBytes } from "@/lib/bytes";
+import { Object } from "@/interfaces/list";
+import { User } from "@/interfaces/user";
 
-export default function ListFiles() {
+export default function ListFiles({ objects, user }: { objects: Object[], user: User }) {
 
-    const { files, rowSelection, setRowSelection, columnFilters, setColumnFilters } = useFileContext();
-    const columns: ColumnDef<File>[] = [
+    const { rowSelection, setRowSelection, columnFilters, setColumnFilters } = useFileContext();
+    const columns: ColumnDef<Object>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -60,7 +62,7 @@ export default function ListFiles() {
                 });
 
                 return (
-                    <span className="font-medium">{DateFormatter.format(value)}</span>
+                    <span className="font-medium">{DateFormatter.format(new Date(value))}</span>
                 )
 
             }
@@ -105,23 +107,14 @@ export default function ListFiles() {
         }
     ]
 
-    if (files === null) return (
-        <DataTable
-            columns={columns}
-            data={[]}
-            no_data_text="Loading your files..."
-            CustomHeader={CustomHeader}
-        />
-    )
-
     return (
         <DataTable
             columns={columns}
-            data={files}
+            data={objects}
             no_data_text="Looks like you don't have objects stored."
             rowSelection={rowSelection}
             onRowSelection={setRowSelection}
-            CustomHeader={CustomHeader}
+            CustomHeader={CustomHeader.bind(null, { user, objects })}
             pagination={true}
             columnFilters={columnFilters}
             setColumnFilters={setColumnFilters}

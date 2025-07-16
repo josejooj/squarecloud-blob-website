@@ -6,19 +6,22 @@ import Cookies from 'js-cookie';
 import { useFileContext } from "../../provider";
 import { CiWarning } from "react-icons/ci";
 import { formatBytes } from "@/lib/bytes";
+import { revalidateTag } from "next/cache";
+import { type Object } from "@/interfaces/list";
+import { User } from "@/interfaces/user";
 
 const messages = {
     "INVALID_OBJECTS": 'You selected some invalid objects, maybe you deleted from another local.',
     "TOO_MANY_OBJECTS": 'You have exceeded the limit of objects to delete.'
 }
 
-export default function DeleteFiles() {
+export default function DeleteFiles({ objects, user }: { objects: Object[], user: User }) {
 
     const [result, setResult] = useState<React.ReactNode>(null);
     const [fetching, setFetching] = useState<boolean>(false);
-    const { rowSelection, files: filesContext, setFiles, setRowSelection } = useFileContext();
+    const { rowSelection, setRowSelection } = useFileContext();
     const indexes = Object.keys(rowSelection);
-    const files = indexes.map(index => filesContext?.[+index]);
+    const files = indexes.map(index => objects[+index]);
     const HandleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
@@ -40,13 +43,7 @@ export default function DeleteFiles() {
             } else if (response.status === 200) {
 
                 setResult("Objects deleted succesfully!");
-                setFiles(current => {
-
-                    if (!current) return null;
-
-                    return current.filter((item, i) => !rowSelection[i]);
-
-                });
+                // revalidateTag("objects." + user.id);
 
                 setRowSelection({});
 

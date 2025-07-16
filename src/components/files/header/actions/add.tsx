@@ -10,6 +10,8 @@ import Cookies from 'js-cookie';
 import { CiCircleCheck, CiWarning } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
 import { useFileContext } from "../../provider";
+import { revalidateTag } from "next/cache";
+import { User } from "@/interfaces/user";
 
 const messages = {
     'INVALID_FILETYPE': 'Sorry, this file type isn\'t supported yet.',
@@ -39,11 +41,10 @@ const parseJsonBody = async<T extends any = any>(input: any): Promise<T> => {
 
 }
 
-export default function AddFile() {
+export default function AddFile({ user }: { user: User }) {
 
     const [result, setResult] = useState<React.ReactNode>(null);
     const [fetching, setFetching] = useState<boolean>(false);
-    const { setFiles } = useFileContext();
     const handleSubmit = async (event: FormEvent) => {
 
         event.preventDefault();
@@ -91,19 +92,7 @@ export default function AddFile() {
             setTimeout(() => { setResult(null) }, 1000 * 5)
 
             if (xhr.status === 200) {
-
-                setFiles(current => {
-
-                    if (!current) return null;
-
-                    return [{
-                        id: data?.response?.id || "Unknown.",
-                        created_at: new Date(),
-                        size: file.size
-                    }].concat(current);
-
-                });
-
+                // revalidateTag("objects" + "." + user.id)
             }
 
         }
