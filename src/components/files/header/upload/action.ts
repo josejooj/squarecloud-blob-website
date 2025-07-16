@@ -35,10 +35,10 @@ type Response = {
 export async function UploadFileAction(prevState: unknown, form: FormData): Promise<Result> {
 
     const cookieStore = await cookies();
-    const apikey = cookieStore.get('apikey')?.value;
+    const token = cookieStore.get('token')?.value;
 
-    if (!apikey || !/^([\d]{18,21}|[a-z0-9]{40})-[a-z0-9]{64}$/.test(apikey)) {
-        cookieStore.delete('apikey');
+    if (!token || !/^([\d]{18,21}|[a-z0-9]{40})-[a-z0-9]{64}$/.test(token)) {
+        cookieStore.delete('token');
         redirect("/login");
     }
 
@@ -60,7 +60,7 @@ export async function UploadFileAction(prevState: unknown, form: FormData): Prom
     const request = await fetch(url.toString(), {
         method: "POST",
         body: requestform,
-        headers: { 'Authorization': apikey }
+        headers: { 'Authorization': token }
     });
 
     const data = await request.json().catch(() => ({ success: false })) as Response;
@@ -70,13 +70,13 @@ export async function UploadFileAction(prevState: unknown, form: FormData): Prom
     }
 
     if (request.status === 401) {
-        cookieStore.delete('apikey');
+        cookieStore.delete('token');
         redirect("/login");
     }
 
     if (request.ok) {
         cookieStore.set('result:file.upload', JSON.stringify(response), { path: '/', maxAge: 15 });
-        revalidateTag(`objects.${apikey.split('-')[0]}`);
+        revalidateTag(`objects.${token.split('-')[0]}`);
     }
 
     return response;

@@ -26,7 +26,7 @@ export default function Login() {
                         <div className='flex flex-col sm:flex-row gap-2'>
                             <Input
                                 type="password"
-                                name="apikey"
+                                name="token"
                                 placeholder="API Key"
                                 required
                             />

@@ -1,17 +1,17 @@
 'use server';
 import { cookies } from 'next/headers';
-import { redirect, RedirectType } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default async function LoginAction(prevState: any, form: FormData) {
 
-    const apikey = form.get('apikey')?.toString();
+    const token = form.get('token')?.toString();
 
-    if (!apikey || !/^([\d]{18,21}|[a-z0-9]{40})-[a-z0-9]{64}$/.test(apikey)) {
+    if (!token || !/^([\d]{18,21}|[a-z0-9]{40})-[a-z0-9]{64}$/.test(token)) {
         return "Authentication Failed, review your API Key"; // Method not allowed
     }
 
     const response = await fetch('https://api.squarecloud.app/v2/users/me', {
-        headers: { Authorization: apikey }
+        headers: { Authorization: token }
     })
 
     if (response.ok) {
@@ -19,8 +19,8 @@ export default async function LoginAction(prevState: any, form: FormData) {
         const store = await cookies()
 
         store.set({
-            name: "apikey",
-            value: apikey,
+            name: "token",
+            value: token,
             secure: true,
             httpOnly: true,
             sameSite: "strict",

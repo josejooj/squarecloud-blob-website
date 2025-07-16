@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
             {
                 source: "/",
                 destination: "/login",
-                missing: [{ type: "cookie", key: "apikey" }],
+                missing: [{ type: "cookie", key: "token" }],
                 permanent: false
             }
         ]

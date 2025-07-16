@@ -10,7 +10,7 @@ import { FetchObjectsList } from "@/lib/square/list";
 export default async function Home() {
 
   const cookie = await cookies();
-  const api_key = cookie.get("apikey")?.value;
+  const api_key = cookie.get("token")?.value;
   const user_id = api_key?.split("-")[0];
   const init = (tag: string) => ({
     headers: { Authorization: api_key! },
@@ -27,7 +27,7 @@ export default async function Home() {
   ]);
 
   if (!user || !stats || !objects) {
-    cookie.delete("apikey");
+    cookie.delete("token");
     redirect("/login");
   }
 
