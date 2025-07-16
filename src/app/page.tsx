@@ -1,13 +1,43 @@
 import Main from "@/components/main";
 import FileManager from "@/components/files/manager";
-import { User, UserSkeleton } from "@/components/user";
+import { UserDetails, UserSkeleton } from "@/components/user";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { FetchUser } from "@/lib/square/user";
+import { FetchObjectStats } from "@/lib/square/stats";
+import { FetchObjectsList } from "@/lib/square/list";
 
-export default function Home() {
+export default async function Home() {
+
+  const cookie = await cookies();
+  const api_key = cookie.get("apikey")?.value;
+  const user_id = api_key?.split("-")[0];
+  const init = (tag: string) => ({
+    headers: { Authorization: api_key! },
+    next: {
+      tags: [tag + "." + user_id],
+      revalidate: 60
+    }
+  })
+
+  const [user, stats, objects] = await Promise.all([
+    FetchUser(init("user")),
+    FetchObjectStats(init("stats")),
+    FetchObjectsList(init("objects"))
+  ]);
+
+  console.log(user, stats, objects);
+
+  if (!user || !stats || !objects) {
+    // cookie.delete("apikey");
+    redirect("/login");
+  }
+
 
   return (
     <Main className="pt-8 pb-4 flex flex-col gap-4">
-      <Suspense fallback={<UserSkeleton />}><User /></Suspense>
+      <Suspense fallback={<UserSkeleton />}><UserDetails /></Suspense>
       <FileManager />
     </Main>
   );

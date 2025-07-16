@@ -65,7 +65,7 @@ export function UserSkeleton() {
     )
 }
 
-export async function User() {
+export async function UserDetails() {
 
     const cookie = await cookies();
     const res = await fetch("https://api.squarecloud.app/v2/users/me", {
