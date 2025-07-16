@@ -18,11 +18,7 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
             accessorKey: "id",
             header: SortedHeader({ title: "ID" }),
             cell: ({ getValue }) => {
-
-                const value = getValue<string>();
-
-                return <span className="font-mono">{value}</span>;
-
+                return <span className="font-mono">{getValue<string>()}</span>;
             }
         },
         {
