@@ -8,8 +8,8 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import Image from "next/image";
 import { FaAddressCard } from "react-icons/fa";
 import { formatBytes } from "@/lib/bytes";
-import { UserResponse } from "@/interfaces/user";
-import { ObjectStatsResponse } from "@/interfaces/stats";
+import { ObjectStats } from "@/interfaces/stats";
+import { User } from "@/interfaces/user";
 
 interface CardProps {
     title: string,
@@ -44,12 +44,12 @@ function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
     )
 }
 
-export async function UserDetails({ user: { user, avatar }, stats: { stats } }: { user: UserResponse, stats: ObjectStatsResponse }) {
+export async function UserDetails({ user, stats }: { user: User, stats: ObjectStats }) {
     return (
         <article className="flex flex-col gap-4">
             <section className="flex items-center gap-4">
                 <Image
-                    src={avatar}
+                    src={user.avatar}
                     width={64}
                     height={64}
                     alt="Profile picture"

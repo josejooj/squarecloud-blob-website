@@ -2,7 +2,8 @@ export interface User {
   id: string
   name: string
   email: string
-  plan: Plan
+  plan: Plan,
+  avatar: string
 }
 
 export interface Plan {
@@ -26,10 +27,4 @@ export interface Application {
   domain: string
   custom: string
   cluster: string
-}
-
-export type UserResponse = {
-  user: User
-  avatar: string
-  revalidate: () => Promise<UserResponse>
 }

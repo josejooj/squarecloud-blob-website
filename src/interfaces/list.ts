@@ -4,8 +4,3 @@ export interface Object {
   created_at: string
   expires_at?: string
 }
-
-export interface ObjectListResponse {
-  objects: Object[],
-  revalidate: () => Promise<ObjectListResponse>
-}

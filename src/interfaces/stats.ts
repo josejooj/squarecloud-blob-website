@@ -19,8 +19,3 @@ export interface Billing {
   objectsPrice: number
   totalEstimate: number
 }
-
-export interface ObjectStatsResponse {
-  stats: ObjectStats,
-  revalidate: () => Promise<ObjectStatsResponse>
-}
