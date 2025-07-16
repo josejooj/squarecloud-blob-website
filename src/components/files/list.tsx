@@ -51,23 +51,23 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
             cell: ({ getValue }) => {
 
                 const value = getValue<number>();
-                const minFileSize = 1000; // 1KB
-                const maxFileSize = 100000000; // 100MB
+                const colors = [
+                    "text-green-600 dark:text-green-200",    // 0-10 MB (mais claro)
+                    "text-green-700 dark:text-green-400",    // 10-20 MB
+                    "text-lime-700 dark:text-lime-400",      // 20-30 MB
+                    "text-yellow-700 dark:text-yellow-400",  // 30-40 MB
+                    "text-amber-700 dark:text-amber-400",    // 40-50 MB
+                    "text-orange-700 dark:text-orange-400",  // 50-60 MB
+                    "text-orange-800 dark:text-orange-600",  // 60-70 MB
+                    "text-red-600 dark:text-red-400",        // 70-80 MB
+                    "text-red-800 dark:text-red-600",        // 80-90 MB
+                    "text-red-900 dark:text-red-800",        // 90-100 MB (mais forte)
+                ];
 
-                const minColor = [0, 255, 0]; // Green in RGB
-                const maxColor = [255, 0, 0]; // Red in RG
-                const normalizedValue = (value - minFileSize) / (maxFileSize - minFileSize);
-
-                const interpolatedColor = minColor.map((min, i) => {
-                    const max = maxColor[i];
-                    const component = Math.round(min + (max - min) * normalizedValue);
-                    return component.toString(16).padStart(2, '0');
-                });
-
-                const color = `#${interpolatedColor.join('')}`;
+                const color = colors[Math.floor((value / (1024 * 1024)) / 10)];
 
                 return (
-                    <span className="font-bold font-mono" style={{ color }}>{formatBytes(value)}</span>
+                    <span className={`font-mono ${color}`}>{formatBytes(value)}</span>
                 )
 
             }
