@@ -43,7 +43,7 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
 
                 const value = getValue<string>();
 
-                return value;
+                return <span className="font-mono">{value}</span>;
 
             }
         },
@@ -62,7 +62,7 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
                 });
 
                 return (
-                    <span className="font-medium">{DateFormatter.format(new Date(value))}</span>
+                    <span className="font-semibold font-mono">{DateFormatter.format(new Date(value))}</span>
                 )
 
             }
@@ -89,7 +89,7 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
                 const color = `#${interpolatedColor.join('')}`;
 
                 return (
-                    <span className="font-bold" style={{ color }}>{formatBytes(value)}</span>
+                    <span className="font-bold font-mono" style={{ color }}>{formatBytes(value)}</span>
                 )
 
             }
