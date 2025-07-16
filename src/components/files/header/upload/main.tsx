@@ -89,18 +89,28 @@ function SubmitButton() {
 }
 
 function getInitialState() {
+    // Check if we're on the client side
+    if (typeof document !== 'undefined') {
+        const name = "result:file.upload=";
+        const state = document.cookie
+            .split("; ")
+            .filter(x => x.startsWith(name))?.[0];
 
-    const name = "result:file.upload=";
-    const state = document.cookie
-        .split("; ")
-        .filter(x => x.startsWith(name))?.[0];
+        if (!state) return null;
+
+        return JSON.parse(
+            decodeURIComponent(
+                state.slice(name.length)
+            )
+        );
+    }
+
+    // Server side - use Next.js cookies
+    const { cookies } = require('next/headers');
+    const cookieStore = cookies();
+    const state = cookieStore.get('result:file.upload');
 
     if (!state) return null;
 
-    return JSON.parse(
-        decodeURIComponent(
-            state.slice(name.length)
-        )
-    );
-
+    return JSON.parse(state.value);
 }
