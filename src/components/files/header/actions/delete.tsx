@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import { useFileContext } from "../../provider";
 import { CiWarning } from "react-icons/ci";
 import { formatBytes } from "@/lib/bytes";
-import { revalidateTag } from "next/cache";
 import { type Object } from "@/interfaces/list";
 import { User } from "@/interfaces/user";
 

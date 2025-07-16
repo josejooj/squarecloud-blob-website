@@ -33,7 +33,7 @@ type Response = {
 }
 
 export async function UploadFileAction(prevState: unknown, form: FormData): Promise<Result> {
-
+    console.log(prevState);
     const cookieStore = await cookies();
     const apikey = cookieStore.get('apikey')?.value;
 
@@ -63,7 +63,11 @@ export async function UploadFileAction(prevState: unknown, form: FormData): Prom
         headers: { 'Authorization': apikey }
     });
 
-    const response = await request.json().catch(() => ({ success: false })) as Response;
+    const data = await request.json().catch(() => ({ success: false })) as Response;
+    const response = {
+        success: request.ok,
+        message: messages[data.code as keyof typeof messages] || messages_by_status[request.status as keyof typeof messages_by_status] || "An unknown error occurred."
+    }
 
     if (request.status === 401) {
         cookieStore.delete('apikey');
@@ -71,12 +75,10 @@ export async function UploadFileAction(prevState: unknown, form: FormData): Prom
     }
 
     if (request.ok) {
+        cookieStore.set('result:file.upload', JSON.stringify(response), { path: '/', maxAge: 15 });
         revalidateTag(`objects.${apikey.split('-')[0]}`);
     }
 
-    return {
-        success: request.ok,
-        message: messages[response.code as keyof typeof messages] || messages_by_status[request.status as keyof typeof messages_by_status] || "An unknown error occurred."
-    }
+    return response;
 
 }

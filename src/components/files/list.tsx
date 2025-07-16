@@ -5,7 +5,7 @@ import { useFileContext } from "./provider";
 import { Button } from "../ui/button";
 import { FaLink } from "react-icons/fa6";
 import { Checkbox } from "../ui/checkbox";
-import CustomHeader from "./header/custom_header";
+import CustomHeader from "./header/main";
 import { formatBytes } from "@/lib/bytes";
 import { Object } from "@/interfaces/list";
 import { User } from "@/interfaces/user";

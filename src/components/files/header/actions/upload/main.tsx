@@ -12,12 +12,12 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 
 export default function UploadFile() {
 
-    const [state, action] = useActionState(UploadFileAction, undefined);
+    const [state, action] = useActionState(UploadFileAction, getInitialState());
 
     return (
-        <Dialog>
+        <Dialog defaultOpen={!!state}>
             <DialogTrigger asChild>
-                <Button>Upload item to blob</Button>
+                <Button size={"icon"}><Plus /></Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
@@ -85,5 +85,22 @@ function SubmitButton() {
             <span>Send File</span>
         </Button>
     )
+
+}
+
+function getInitialState() {
+
+    const name = "result:file.upload=";
+    const state = document.cookie
+        .split("; ")
+        .filter(x => x.startsWith(name))?.[0];
+
+    if (!state) return null;
+
+    return JSON.parse(
+        decodeURIComponent(
+            state.slice(name.length)
+        )
+    );
 
 }
