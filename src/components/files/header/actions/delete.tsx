@@ -75,23 +75,23 @@ export default function DeleteFiles() {
                     <DialogDescription>
                         {result || (
                             <form onSubmit={HandleSubmit} className="pt-4 flex flex-col gap-4 text-start">
-                                <h1 className="font-medium text-lg dark:text-gray-300 text-gray-700">
+                                <h1 className="font-medium text-lg text-muted-foreground">
                                     Take care! These {indexes.length} objects will be deleted -&nbsp;
-                                    <span className="text-yellow-400 font-medium text-sm">
+                                    <span className="text-primary font-medium text-sm">
                                         {formatBytes(files.reduce((a, file) => a + (file!.size || 0), 0))}
                                     </span>:
                                 </h1>
                                 <ul className="list-decimal pl-8 max-h-64 overflow-y-auto">
                                     {files.map((file, i) => (
                                         <li key={i}>
-                                            <span className="text-yellow-400">{formatBytes(file?.size || 0)}</span>
+                                            <span className="text-primary">{formatBytes(file?.size || 0)}</span>
                                             &nbsp;-&nbsp;
                                             <span className="break-all">{file!.id?.split("/").slice(1)}</span>
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="flex gap-2 dark:text-gray-300 text-gray-700">
-                                    <CiWarning size={22} className="dark:text-red-500 text-red-500" />
+                                <div className="flex gap-2 text-muted-foreground">
+                                    <CiWarning size={22} className="text-destructive" />
                                     <span className="font-medium">Please note that the exclusion is definitive and permanent!</span>
                                 </div>
                                 <nav className="w-full flex-col-reverse flex sm:flex-row items-center gap-2">

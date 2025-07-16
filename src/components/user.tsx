@@ -23,21 +23,21 @@ interface CardProps {
 
 function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
     return (
-        <section className="p-2 rounded-md border-2 ">
+        <section className="p-2 rounded-md border-2 bg-card">
             <div className="flex items-center justify-between pb-2">
                 <nav className="flex items-center gap-2">
                     <Icon size={18} />
-                    <h1 className="font-medium text-lg">{title}</h1>
+                    <h1 className="text-lg font-semibold">{title}</h1>
                 </nav>
                 <h3 className="text-sm">{value}</h3>
             </div>
             <div className="w-full flex justify-between">
-                <h5 className="text-sm text-gray-400">{description}</h5>
+                <h5 className="text-sm text-card-foreground font-medium">{description}</h5>
                 {tooltip && (
                     <TooltipProvider>
                         <Tooltip delayDuration={200}>
-                            <TooltipTrigger className="dark:text-gray-300 text-gray-600"><IoMdInformationCircleOutline size={24} /></TooltipTrigger>
-                            <TooltipContent className="dark:bg-gray-700 dark:text-white border">{tooltip}</TooltipContent>
+                            <TooltipTrigger><IoMdInformationCircleOutline size={24} /></TooltipTrigger>
+                            <TooltipContent>{tooltip}</TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
                 )}
@@ -67,7 +67,7 @@ export function UserSkeleton() {
 
 export async function User() {
 
-    const cookie = cookies();
+    const cookie = await cookies();
     const res = await fetch("https://api.squarecloud.app/v2/users/me", {
         headers: { Authorization: cookie.get("apikey")?.value! }
     });
@@ -82,7 +82,7 @@ export async function User() {
         headers: { Authorization: cookie.get("apikey")?.value! }
     });
 
-    const status = await stats_res.json().then(r => r.response) || {};
+    const status = (await stats_res.json().then(r => r.response)) || {};
     const user_avatar_hash = crypto.createHash("sha256").update(user?.email?.trim().toLowerCase()).digest("hex");
 
     return (
@@ -93,13 +93,13 @@ export async function User() {
                     width={64}
                     height={64}
                     alt="Profile picture"
-                    className="rounded-lg"
+                    className="rounded-md"
                 />
                 <section className="flex flex-col gap-2">
                     <h1 className="font-bold text-3xl">{user.name}</h1>
-                    <div className="flex items-center gap-2 dark:text-gray-300 text-gray-700">
+                    <div className="flex items-center gap-2">
                         <FaAddressCard />
-                        <h3 className="text-sm font-medium dark:text-gray-400 text-gray-600">{user.id}</h3>
+                        <h3 className="text-xs font-medium">{user.id}</h3>
                     </div>
                 </section>
             </section>

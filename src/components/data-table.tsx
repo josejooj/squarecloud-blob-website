@@ -82,12 +82,12 @@ export function DataTable<T>({
             <Header table={table} />
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader className="dark:bg-gray-950 bg-slate-100">
+                    <TableHeader className="bg-card">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="select-none">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -150,7 +150,7 @@ export function SortedHeader({ title }: { title: string }): ColumnDef<any>['head
                 className="flex items-center gap-2 group cursor-pointer whitespace-nowrap"
             >
                 <span>{title}</span>
-                <Icon size={24} className="p-1 rounded-full group-hover:dark:bg-slate-600 group-hover:bg-slate-200 duration-200" />
+                <Icon size={24} className="p-1 rounded-full hover:bg-accent duration-200" />
             </div>
         )
 

@@ -1,12 +1,11 @@
 import { Table } from "@tanstack/react-table";
 import { File } from "../provider";
-import { Input } from "../../ui/input";
 import { IoMdSearch } from "react-icons/io";
 
 export default function Search({ table }: { table: Table<File> }) {
 
     return (
-        <div className="flex items-center gap-2 w-full border rounded-md px-2 dark:text-gray-300">
+        <div className="flex items-center gap-2 w-full border rounded-md px-2">
             <IoMdSearch size={24} className=""/>
             <input
                 placeholder="Search by ID"

@@ -50,7 +50,7 @@ export default function Login() {
             <div className='w-full grid place-items-center'>
                 <div className='flex flex-col gap-2 w-full max-w-[600px] p-4'>
                     {error && (
-                        <nav className='p-2 dark:border-red-500 dark:border-2 dark:bg-transparent bg-red-300 rounded-md flex items-center gap-2 text-sm font-medium dark:text-gray-200'>
+                        <nav className='p-2 border-destructive dark:border-2 dark:bg-transparent bg-destructive/50 rounded-md flex items-center gap-2 text-sm font-medium text-muted-foreground'>
                             <PiWarningBold size={24} />
                             {error}
                         </nav>
@@ -64,13 +64,12 @@ export default function Login() {
                                 required
                             />
                             <Button
-                                variant='secondary'
+                                variant='default'
                                 type="submit"
                                 disabled={fetching}
-                                className='dark:font-medium dark:bg-gray-900 bg-gray-300'
                             >Authenticate</Button>
                         </div>
-                        <div className='dark:text-gray-300 text-gray-700 flex gap-2 items-center text-xs'>
+                        <div className='text-muted-foreground flex gap-2 items-center text-xs'>
                             <ImInfo />
                             <div>
                                 <span>If you want, you can consult the code in our</span>

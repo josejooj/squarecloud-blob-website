@@ -77,7 +77,7 @@ export default function AddFile() {
             const Icon = xhr.status === 200 ? FaCheck : CiWarning;
 
             setResult((
-                <div className="flex items-center gap-4 pt-4 text-gray-200">
+                <div className="flex items-center gap-4 pt-4 text-muted-foreground">
                     <Icon size={24} />
                     <h1>{
                         messages[data.code as keyof typeof messages] ||
@@ -103,7 +103,7 @@ export default function AddFile() {
                     }].concat(current);
 
                 });
-                
+
             }
 
         }
@@ -113,34 +113,31 @@ export default function AddFile() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={'outline'} className="bg-green-300 dark:bg-green-700">Add item to blob</Button>
+                <Button>Add item to blob</Button>
             </DialogTrigger>
-            <DialogContent className="dark:bg-black border-2">
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Send file to blob</DialogTitle>
                     <DialogDescription>
                         {result || (
                             <form onSubmit={handleSubmit} method="POST" className="pt-4 flex flex-col gap-4">
                                 <div className="flex flex-col gap-1">
-                                    <Label htmlFor="filename" className="dark:text-gray-300">File name *</Label>
+                                    <Label htmlFor="filename">File name *</Label>
                                     <Input id='filename' name="name" placeholder="Insert the file name" maxLength={30} required className="border-2" pattern="\w{1,}" />
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                    <Label htmlFor="prefix" className="dark:text-gray-300">Prefix</Label>
+                                    <Label htmlFor="prefix">Prefix</Label>
                                     <Input id='prefix' name="prefix" placeholder="Prefix (Optional)" maxLength={30} className="border-2" pattern="\w{1,}" />
                                 </div>
                                 <div className="flex flex-col sm:grid grid-cols-4 gap-2 sm:items-center">
                                     <input
-                                        className={cn(
-                                            "text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700",
-                                            "col-span-3 block w-full font-medium border rounded-md cursor-pointer focus:outline-none dark:placeholder-gray-400"
-                                        )}
+                                        className={"p-2 bg-secondary col-span-3 block w-full font-medium border rounded-md cursor-pointer"}
                                         name="file"
                                         type="file"
                                         required
                                     />
                                     <div className="flex items-center gap-2 sm:place-self-center">
-                                        <Checkbox className="dark:border-slate-800" defaultChecked name="secure" /> Security Hash
+                                        <Checkbox defaultChecked name="secure" /> Security Hash
                                     </div>
                                 </div>
                                 <Button type="submit" variant={"outline"} className="border-2" disabled={fetching}>Send File</Button>
