@@ -1,14 +1,14 @@
 'use client';
-import { DialogContent, DialogTrigger, Dialog, DialogHeader, DialogTitle } from "../../../../ui/dialog";
-import { Input } from "../../../../ui/input";
-import { Label } from "../../../../ui/label";
-import { Checkbox } from "../../../../ui/checkbox";
-import { Button } from "../../../../ui/button";
-import React, { useActionState } from "react";
-import { UploadFileAction } from "./action";
-import { useFormStatus } from "react-dom";
-import { Check, Loader, Plus, X } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Check, Loader, Plus, X } from "lucide-react";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { Button } from "../../../ui/button";
+import { Checkbox } from "../../../ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../ui/dialog";
+import { Input } from "../../../ui/input";
+import { Label } from "../../../ui/label";
+import { UploadFileAction } from "./action";
 
 export default function UploadFile() {
 

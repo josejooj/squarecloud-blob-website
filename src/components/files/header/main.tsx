@@ -1,10 +1,10 @@
+import { Object } from "@/interfaces/list";
+import { User } from "@/interfaces/user";
 import { Table } from "@tanstack/react-table";
-import SetPage from "./set_page";
 import { File } from "../provider";
 import Search from "./search";
-import { User } from "@/interfaces/user";
-import { Object } from "@/interfaces/list";
-import UploadFile from "./actions/upload/main";
+import SetPage from "./page";
+import UploadFile from "./upload/main";
 
 export default function CustomHeader({ user, objects }: { user: User, objects: Object[] }, { table }: { table: Table<File> }) {
 
