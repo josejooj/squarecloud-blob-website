@@ -40,7 +40,9 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
                 });
 
                 return (
-                    <span className="font-semibold font-mono">{DateFormatter.format(new Date(value))}</span>
+                    <span className="font-semibold font-mono" suppressHydrationWarning>
+                        {DateFormatter.format(new Date(value))}
+                    </span>
                 )
 
             }
