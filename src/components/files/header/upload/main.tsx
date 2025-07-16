@@ -22,7 +22,7 @@ export default function UploadFile() {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Upload file to blob</DialogTitle>
-                    <form action={action} method="POST" className="pt-4 flex flex-col gap-4">
+                    <form action={action} className="pt-4 flex flex-col gap-4">
                         <div className="flex flex-col gap-1">
                             <Label htmlFor="filename">File name *</Label>
                             <Input
