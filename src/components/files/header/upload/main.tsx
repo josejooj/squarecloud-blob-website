@@ -21,7 +21,7 @@ export default function UploadFile() {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Send file to blob</DialogTitle>
+                    <DialogTitle>Upload file to blob</DialogTitle>
                     <form action={action} method="POST" className="pt-4 flex flex-col gap-4">
                         <div className="flex flex-col gap-1">
                             <Label htmlFor="filename">File name *</Label>
@@ -82,7 +82,7 @@ function SubmitButton() {
     return (
         <Button type="submit" disabled={pending}>
             {emoji}
-            <span>Send File</span>
+            <span>Upload File</span>
         </Button>
     )
 
