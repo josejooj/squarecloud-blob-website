@@ -4,38 +4,16 @@ import { DataTable, SortedHeader } from "../data-table";
 import { useFileContext } from "./provider";
 import { Button } from "../ui/button";
 import { FaLink } from "react-icons/fa6";
-import { Checkbox } from "../ui/checkbox";
 import CustomHeader from "./header/main";
 import { formatBytes } from "@/lib/bytes";
 import { Object } from "@/interfaces/list";
 import { User } from "@/interfaces/user";
+import DeleteFile from "./delete/main";
 
 export default function ListFiles({ objects, user }: { objects: Object[], user: User }) {
 
     const { rowSelection, setRowSelection, columnFilters, setColumnFilters } = useFileContext();
     const columns: ColumnDef<Object>[] = [
-        {
-            id: "select",
-            header: ({ table }) => (
-                <Checkbox
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label="Select all"
-                />
-            ),
-            cell: ({ row }) => (
-                <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
         {
             accessorKey: "id",
             header: SortedHeader({ title: "ID" }),
@@ -104,6 +82,12 @@ export default function ListFiles({ objects, user }: { objects: Object[], user: 
                     </Button>
                 )
             }
+        },
+        {
+            id: "delete",
+            cell: ({ row }) => (
+                <DeleteFile object={row.original} />
+            )
         }
     ]
 
