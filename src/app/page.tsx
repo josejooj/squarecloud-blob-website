@@ -1,7 +1,6 @@
 import Main from "@/components/main";
 import FileManager from "@/components/files/manager";
-import { UserDetails, UserSkeleton } from "@/components/user";
-import { Suspense } from "react";
+import { UserDetails } from "@/components/user";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { FetchUser } from "@/lib/square/user";
@@ -27,17 +26,14 @@ export default async function Home() {
     FetchObjectsList(init("objects"))
   ]);
 
-  console.log(user, stats, objects);
-
   if (!user || !stats || !objects) {
-    // cookie.delete("apikey");
+    cookie.delete("apikey");
     redirect("/login");
   }
 
-
   return (
     <Main className="pt-8 pb-4 flex flex-col gap-4">
-      <Suspense fallback={<UserSkeleton />}><UserDetails /></Suspense>
+      <UserDetails user={user} stats={stats} />
       <FileManager />
     </Main>
   );

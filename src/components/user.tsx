@@ -1,17 +1,15 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import React from "react";
 import { IconType } from "react-icons";
 import { IoServerSharp } from "react-icons/io5";
 import { FaFileAlt } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
-import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import crypto from 'crypto';
 import Image from "next/image";
 import { FaAddressCard } from "react-icons/fa";
 import { formatBytes } from "@/lib/bytes";
+import { UserResponse } from "@/interfaces/user";
+import { ObjectStatsResponse } from "@/interfaces/stats";
 
 interface CardProps {
     title: string,
@@ -29,7 +27,7 @@ function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
                     <Icon size={18} />
                     <h1 className="text-lg font-semibold">{title}</h1>
                 </nav>
-                <h3 className="text-sm">{value}</h3>
+                <h3 className="text-sm font-medium font-mono">{value}</h3>
             </div>
             <div className="w-full flex justify-between">
                 <h5 className="text-sm text-card-foreground font-medium">{description}</h5>
@@ -46,50 +44,12 @@ function Card({ title, icon: Icon, description, value, tooltip }: CardProps) {
     )
 }
 
-export function UserSkeleton() {
-    return (
-        <div className="flex flex-col gap-4">
-            <nav className="flex gap-4">
-                <Skeleton className="rounded-lg w-16 h-16" />
-                <section className="flex flex-col gap-2">
-                    <Skeleton className="w-32 h-8" />
-                    <Skeleton className="w-64 h-6" />
-                </section>
-            </nav>
-            <nav className="grid md:grid-cols-3 w-full gap-2 md:h-20 h-64">
-                <Skeleton className="h-full" />
-                <Skeleton className="h-full" />
-                <Skeleton className="h-full" />
-            </nav>
-        </div>
-    )
-}
-
-export async function UserDetails() {
-
-    const cookie = await cookies();
-    const res = await fetch("https://api.squarecloud.app/v2/users/me", {
-        headers: { Authorization: cookie.get("apikey")?.value! }
-    });
-
-    if (res.status !== 200) {
-        cookie.delete("apikey");
-        redirect("/login");
-    }
-
-    const user = await res.json().then(r => r.response.user);
-    const stats_res = await fetch("https://blob.squarecloud.app/v1/account/stats", {
-        headers: { Authorization: cookie.get("apikey")?.value! }
-    });
-
-    const status = (await stats_res.json().then(r => r.response)) || {};
-    const user_avatar_hash = crypto.createHash("sha256").update(user?.email?.trim().toLowerCase()).digest("hex");
-
+export async function UserDetails({ user: { user, avatar }, stats: { stats } }: { user: UserResponse, stats: ObjectStatsResponse }) {
     return (
         <article className="flex flex-col gap-4">
             <section className="flex items-center gap-4">
                 <Image
-                    src={`https://gravatar.com/avatar/${user_avatar_hash}?d=mp`}
+                    src={avatar}
                     width={64}
                     height={64}
                     alt="Profile picture"
@@ -107,31 +67,21 @@ export async function UserDetails() {
                 <Card
                     title="Objects"
                     icon={FaFileAlt}
-                    value={status?.objects || "Unavailable"}
+                    value={stats.usage.objects?.toString()}
                     description="This represents the object count on your blob"
                     tooltip="Note that this information may be a little out of date due to caching"
                 />
                 <Card
                     title="Size"
                     icon={IoServerSharp}
-                    value={
-                        status?.size ?
-                            formatBytes(status.size)
-                            :
-                            "Unavailable"
-                    }
+                    value={formatBytes(stats.usage.storage)}
                     description="That's all the space taken up by your files"
                     tooltip="Note that this information may be a little out of date due to caching"
                 />
                 <Card
                     title="Estimated Cost"
                     icon={MdAttachMoney}
-                    value={
-                        typeof status?.totalEstimate === 'number' && !isNaN(status.totalEstimate) ?
-                            Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(status.totalEstimate)
-                            :
-                            "Unavailable"
-                    }
+                    value={Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(stats.billing.totalEstimate)}
                     description="This is the amount to be paid upon renewal"
                 />
             </article>
