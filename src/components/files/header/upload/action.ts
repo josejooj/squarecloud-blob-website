@@ -33,7 +33,7 @@ type Response = {
 }
 
 export async function UploadFileAction(prevState: unknown, form: FormData): Promise<Result> {
-    console.log(prevState);
+
     const cookieStore = await cookies();
     const apikey = cookieStore.get('apikey')?.value;
 
